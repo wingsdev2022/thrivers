@@ -618,7 +618,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   void _showMultiSelect() async {
     // a list of selectable items
     // these items can be hard-coded or dynamically fetched from a database/API
@@ -895,13 +894,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<DocumentSnapshot> fetchEventDetails(DocumentReference docRef) async {
-
     //Fetch List of All the tickets
-
     return await docRef.get();
   }
-
-
 
   void showAddThriverDialogBox(StateSetter innerState) {
     List<TextEditingController> textControllers = [];
@@ -956,7 +951,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   width: 200,
-
                   height: 60,
                   decoration: BoxDecoration(
                     color: primaryColorOfApp,
@@ -994,6 +988,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.maxFinite,
               height: MediaQuery.of(context).size.height*0.5,
               child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
@@ -1192,6 +1187,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     //Industry
                     //Solution List
+
+                    //SHow a dialog on checks with TREE
+                    //On Selection Show them on with CHips
+
+                    TextButton(onPressed: (){
+                          showSelectChallengesWidget();
+                    }, child: Text("Select Challenges")),
+
+                    Wrap(
+                      spacing: 5,
+                      children: List.generate(
+                        10,
+                            (index) {
+                          return Chip(
+                            label: Text(_animals[index].name),
+                            onDeleted: () {
+                              setState(() {
+                                _animals.removeAt(index);
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+
                     Padding(
                       child: Container(
                         //width: size.width * 0.9,
@@ -1212,12 +1232,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               textStyle: Theme.of(context).textTheme.bodyLarge,
                               fontWeight: FontWeight.w400,
                             ),
-
                             cursorColor: primaryColorOfApp,
-
                             decoration: InputDecoration(
                               //errorText: firstNameErrorText,
-
                               contentPadding: EdgeInsets.all(25),
                               hintText:  "Type & Search",
                               labelText: "Challenges List",
@@ -1245,7 +1262,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             return await AuthorityServices.getSuggestions(pattern);
                           },
                           itemBuilder: (context, suggestion) {
-
                             return TreeView(
                               data: treeData,
                               lazy: true,
@@ -1371,7 +1387,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               //subtitle: Text("Add Some Details Here"),
                             );
                           },
-
                           onSuggestionSelected: (suggestion) {
                             print("Im selected");
                             print(suggestion);
@@ -1392,4 +1407,128 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void showSelectChallengesWidget() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            actions: <Widget>[
+              InkWell(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 200,
+
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color:primaryColorOfApp , width: 2.0),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Cancel',
+                      style: GoogleFonts.montserrat(
+                          textStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColorOfApp),
+                    ),
+                  ),
+                ),
+
+              ),
+              InkWell(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: primaryColorOfApp,
+                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Okay',
+                      style: GoogleFonts.montserrat(
+                          textStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+
+              ),
+            ],
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text("Select Challenges",style: GoogleFonts.montserrat(
+                      color: Colors.black)),
+                ),
+                Text("(ID:TH0010) ",style: GoogleFonts.montserrat(textStyle:
+                Theme.of(context).textTheme.titleSmall,)),
+              ],
+            ),
+            content: SizedBox(
+              width: double.maxFinite*0.7,
+              height: MediaQuery.of(context).size.height*0.5,
+              child: TreeView(
+                data: treeData,
+                lazy: true,
+                load: _load,
+                showActions: true,
+                showCheckBox: true,
+                showFilter: true,
+                append: (parent) {
+                  print(parent.extra);
+                  return TreeNodeData(
+                    title: 'Appended',
+                    expaned: true,
+                    checked: true,
+                    children: [],
+                  );
+                },
+                onLoad: (node) {
+                  print('onLoad');
+                  print(node);
+                },
+                onAppend: (node, parent) {
+                  print('onAppend');
+                  print(node);
+                },
+                onCheck: (checked, node) {
+                  print('checked');
+                  print('onCheck');
+                  print(node);
+                },
+                onCollapse: (node) {
+                  print('onCollapse');
+                  print(node);
+                },
+                onExpand: (node) {
+                  print('onExpand');
+                  print(node);
+                },
+                onRemove: (node, parent) {
+                  print('onRemove');
+                  print(node);
+                },
+                onTap: (node) {
+                  print('onTap');
+                  print(node);
+                },
+              ),
+            ),
+          );
+        }
+    );
+  }
 }
