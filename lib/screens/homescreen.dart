@@ -214,7 +214,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {});
                         },
                         child: FaIcon(FontAwesomeIcons.filter,color: primaryColorOfApp,))),flex: 1,),
-                    Expanded(child: Center(child: FaIcon(FontAwesomeIcons.add,color: primaryColorOfApp,)),flex: 1,),
+                    Expanded(child: Center(child: InkWell(
+                        onTap: (){
+                          showAddThriverDialogBox(setState);
+                        },
+                        child: FaIcon(FontAwesomeIcons.add,color: primaryColorOfApp,))),flex: 1,),
                   ],
                 )
             ),flex: 1,),
@@ -895,6 +899,314 @@ class _HomeScreenState extends State<HomeScreen> {
     //Fetch List of All the tickets
 
     return await docRef.get();
+  }
+
+
+
+  void showAddThriverDialogBox(StateSetter innerState) {
+    List<TextEditingController> textControllers = [];
+    for(int i=0;i<6;i++){
+      textControllers.add(TextEditingController());
+    }
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            actions: <Widget>[
+              InkWell(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 200,
+
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color:primaryColorOfApp , width: 2.0),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Cancel',
+                      style: GoogleFonts.montserrat(
+                          textStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColorOfApp),
+                    ),
+                  ),
+                ),
+
+              ),
+              InkWell(
+                onTap: () async {
+                  ////ApiRepository().updateSecurityPINFor(userAccountId,newPinTextEditingController.text);
+                  List tempArrays = [];
+                  for(int i=0;i<6;i++){
+                    tempArrays.add(textControllers[i].text);
+                  }
+                  dataItems.add({"AnswerMultipleChoice":
+                  tempArrays
+                  });
+                  innerState(() {
+
+                  });
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 200,
+
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: primaryColorOfApp,
+                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Okay',
+                      style: GoogleFonts.montserrat(
+                          textStyle:
+                          Theme.of(context).textTheme.titleSmall,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+
+              ),
+            ],
+            title: Row(
+              children: [
+                Text("(ID:TH0010) ",style: GoogleFonts.montserrat(
+                    textStyle:
+                    Theme.of(context).textTheme.titleSmall,)),
+                Text("Add A Thriver"),
+              ],
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              height: MediaQuery.of(context).size.height*0.5,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: textControllers[0],
+                        cursorColor: primaryColorOfApp,
+                        onChanged: (value) {
+
+                        },
+                        style: GoogleFonts.montserrat(
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                        decoration: InputDecoration(
+                          //errorText: userAccountSearchErrorText,
+                          contentPadding: EdgeInsets.all(25),
+                          labelText: "Thriver Name",
+                          hintText: "Thriver Name",
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                          ),
+                          errorStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.redAccent),
+
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black12),
+                              borderRadius: BorderRadius.circular(15)),
+                          //hintText: "e.g Abouzied",
+                          labelStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black45),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        maxLines: null,
+                        controller: textControllers[0],
+                        cursorColor: primaryColorOfApp,
+                        onChanged: (value) {
+
+                        },
+                        style: GoogleFonts.montserrat(
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                        decoration: InputDecoration(
+                          //errorText: userAccountSearchErrorText,
+                          contentPadding: EdgeInsets.all(25),
+                          labelText: "Thriver Description",
+                          hintText: "Thriver Description",
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                          ),
+                          errorStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.redAccent),
+
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black12),
+                              borderRadius: BorderRadius.circular(15)),
+                          //hintText: "e.g Abouzied",
+                          labelStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black45),
+                        ),
+                      ),
+                    ),
+                    //Country
+                    Padding(
+                      child: Container(
+                        //width: size.width * 0.9,
+                        child: TypeAheadField(
+                          noItemsFoundBuilder: (BuildContext context) {
+
+                            return ListTile(
+
+                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: catergoryTextEditingController,
+                            //autofocus: true,
+
+                            style: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+
+                            cursorColor: primaryColorOfApp,
+
+                            decoration: InputDecoration(
+                              //errorText: firstNameErrorText,
+
+                              contentPadding: EdgeInsets.all(25),
+                              hintText:  "Search & Send Invites ...",
+                              labelText: "Select Country",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+                              enabledBorder:OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white12),
+                                  borderRadius: BorderRadius.circular(100)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(100)),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white12),
+                                  borderRadius: BorderRadius.circular(100)),
+                              //hintText: "e.g Abouzied",
+                              labelStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white54),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            return await AuthorityServices.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion.toString()),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                            catergoryTextEditingController.text = suggestion;
+                            // textEditingController.clear();
+                            //mySelectedUsers.add(suggestion.toString());
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                    ),
+                    //Job Roles
+
+                    //Industry
+                    //Solution List
+                    //Challenges List
+
+
+                    Expanded(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (c,i){
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                controller: textControllers[i+1],
+                                cursorColor: primaryColorOfApp,
+                                onChanged: (value) {
+
+                                },
+                                style: GoogleFonts.montserrat(
+                                    textStyle: Theme.of(context).textTheme.bodyLarge,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                                decoration: InputDecoration(
+                                  //errorText: userAccountSearchErrorText,
+                                  contentPadding: EdgeInsets.all(25),
+                                  labelText: "Add an option",
+                                  hintText: "Add an option for user to select",
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      backgroundColor: primaryColorOfApp,
+                                      child: Text((i+1).toString(),style: TextStyle(color: Colors.white),),
+                                    ),
+                                  ),
+                                  errorStyle: GoogleFonts.montserrat(
+                                      textStyle: Theme.of(context).textTheme.bodyLarge,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.redAccent),
+
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(100)),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black12),
+                                      borderRadius: BorderRadius.circular(100)),
+                                  //hintText: "e.g Abouzied",
+                                  labelStyle: GoogleFonts.montserrat(
+                                      textStyle: Theme.of(context).textTheme.bodyLarge,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black45),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
+                  ]
+              ),
+            ),
+          );
+        }
+    );
   }
 
 }
