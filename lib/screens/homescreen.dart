@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //errorText: firstNameErrorText,
 
                                 contentPadding: EdgeInsets.all(25),
-                                hintText:  "Search & Send Invites ...",
+                                hintText:  "Type & Search",
                                 labelText: "Select Catrgory",
                                 errorStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -325,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //errorText: firstNameErrorText,
 
                                 contentPadding: EdgeInsets.all(25),
-                                hintText:  "Search & Send Invites ...",
+                                hintText:  "Type & Search",
                                 labelText: "Type/Tap On Name to Add",
                                 errorStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -978,11 +978,16 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("(ID:TH0010) ",style: GoogleFonts.montserrat(
-                    textStyle:
-                    Theme.of(context).textTheme.titleSmall,)),
-                Text("Add A Thriver"),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text("Add A Thriver",style: GoogleFonts.montserrat(
+                  color: Colors.black)),
+                ),
+                Text("(ID:TH0010) ",style: GoogleFonts.montserrat(textStyle:
+                Theme.of(context).textTheme.titleSmall,)),
               ],
             ),
             content: SizedBox(
@@ -1091,8 +1096,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             style: GoogleFonts.montserrat(
                                 textStyle: Theme.of(context).textTheme.bodyLarge,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white),
+                                fontWeight: FontWeight.w400,),
 
                             cursorColor: primaryColorOfApp,
 
@@ -1100,26 +1104,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               //errorText: firstNameErrorText,
 
                               contentPadding: EdgeInsets.all(25),
-                              hintText:  "Search & Send Invites ...",
+                              hintText:  "Type & Search",
                               labelText: "Select Country",
                               errorStyle: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.redAccent),
                               enabledBorder:OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white12),
+                                  borderSide: BorderSide(color: Colors.black),
                                   borderRadius: BorderRadius.circular(100)),
                               focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: BorderSide(color: Colors.black),
                                   borderRadius: BorderRadius.circular(100)),
                               border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white12),
+                                  borderSide: BorderSide(color: Colors.black),
                                   borderRadius: BorderRadius.circular(100)),
                               //hintText: "e.g Abouzied",
                               labelStyle: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.white54),
+                                  color: Colors.black),
                             ),
                           ),
                           suggestionsCallback: (pattern) async {
@@ -1145,62 +1149,241 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                     ),
                     //Job Roles
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                       // maxLines: null,
+                        controller: textControllers[0],
+                        cursorColor: primaryColorOfApp,
+                        onChanged: (value) {
 
+                        },
+                        style: GoogleFonts.montserrat(
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                        decoration: InputDecoration(
+                          //errorText: userAccountSearchErrorText,
+                          contentPadding: EdgeInsets.all(25),
+                          labelText: "Job Roles",
+                          hintText: "Job Roles",
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                          ),
+                          errorStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.redAccent),
+
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black12),
+                              borderRadius: BorderRadius.circular(15)),
+                          //hintText: "e.g Abouzied",
+                          labelStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black45),
+                        ),
+                      ),
+                    ),
                     //Industry
                     //Solution List
-                    //Challenges List
+                    Padding(
+                      child: Container(
+                        //width: size.width * 0.9,
+                        child: TypeAheadField(
+                          noItemsFoundBuilder: (BuildContext context) {
 
+                            return ListTile(
 
-                    Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 5,
-                          itemBuilder: (c,i){
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: textControllers[i+1],
-                                cursorColor: primaryColorOfApp,
-                                onChanged: (value) {
-
-                                },
-                                style: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                                decoration: InputDecoration(
-                                  //errorText: userAccountSearchErrorText,
-                                  contentPadding: EdgeInsets.all(25),
-                                  labelText: "Add an option",
-                                  hintText: "Add an option for user to select",
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CircleAvatar(
-                                      backgroundColor: primaryColorOfApp,
-                                      child: Text((i+1).toString(),style: TextStyle(color: Colors.white),),
-                                    ),
-                                  ),
-                                  errorStyle: GoogleFonts.montserrat(
-                                      textStyle: Theme.of(context).textTheme.bodyLarge,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.redAccent),
-
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black12),
-                                      borderRadius: BorderRadius.circular(100)),
-                                  //hintText: "e.g Abouzied",
-                                  labelStyle: GoogleFonts.montserrat(
-                                      textStyle: Theme.of(context).textTheme.bodyLarge,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black45),
-                                ),
-                              ),
+                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                              //subtitle: Text("Add Some Details Here"),
                             );
-                          }),
-                    )
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: catergoryTextEditingController,
+                            //autofocus: true,
+
+                            style: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                            ),
+
+                            cursorColor: primaryColorOfApp,
+
+                            decoration: InputDecoration(
+                              //errorText: firstNameErrorText,
+
+                              contentPadding: EdgeInsets.all(25),
+                              hintText:  "Type & Search",
+                              labelText: "Challenges List",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+                              enabledBorder:OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              //hintText: "e.g Abouzied",
+                              labelStyle: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            return await AuthorityServices.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+
+                            return TreeView(
+                              data: treeData,
+                              lazy: true,
+                              load: _load,
+                              showActions: true,
+                              showCheckBox: true,
+                              showFilter: true,
+                              append: (parent) {
+                                print(parent.extra);
+                                return TreeNodeData(
+                                  title: suggestion.toString(),
+                                  expaned: true,
+                                  checked: true,
+                                  children: [],
+                                );
+                              },
+                              onLoad: (node) {
+                                print('onLoad');
+                                print(node);
+                              },
+                              onAppend: (node, parent) {
+                                print('onAppend');
+                                print(node);
+                              },
+                              onCheck: (checked, node) {
+                                print('checked');
+                                print('onCheck');
+                                print(node);
+                              },
+                              onCollapse: (node) {
+                                print('onCollapse');
+                                print(node);
+                              },
+                              onExpand: (node) {
+                                print('onExpand');
+                                print(node);
+                              },
+                              onRemove: (node, parent) {
+                                print('onRemove');
+                                print(node);
+                              },
+                              onTap: (node) {
+                                print('onTap');
+                                print(node);
+                              },
+                            );
+
+
+                            /*return ListTile(
+                              title: Text(suggestion.toString()),
+                              //subtitle: Text("Add Some Details Here"),
+                            );*/
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                            catergoryTextEditingController.text = suggestion;
+                            // textEditingController.clear();
+                            //mySelectedUsers.add(suggestion.toString());
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                    ),
+                    //Challenges List
+                    Padding(
+                      child: Container(
+                        //width: size.width * 0.9,
+                        child: TypeAheadField(
+                          noItemsFoundBuilder: (BuildContext context) {
+
+                            return ListTile(
+
+                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: catergoryTextEditingController,
+                            //autofocus: true,
+
+                            style: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                               ),
+
+                            cursorColor: primaryColorOfApp,
+
+                            decoration: InputDecoration(
+                              //errorText: firstNameErrorText,
+
+                              contentPadding: EdgeInsets.all(25),
+                              hintText:  "Type & Search",
+                              labelText: "Solution List",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+                              enabledBorder:OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(100)),
+                              //hintText: "e.g Abouzied",
+                              labelStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            return await AuthorityServices.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion.toString()),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                            catergoryTextEditingController.text = suggestion;
+                            // textEditingController.clear();
+                            //mySelectedUsers.add(suggestion.toString());
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                    ),
                   ]
               ),
             ),
