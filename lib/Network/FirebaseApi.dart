@@ -40,7 +40,7 @@ class ApiRepository{
       // Replace 'your_collection' with your actual collection name
       CollectionReference collectionReference = FirebaseFirestore.instance.collection('Thrivers');
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Thrivers').get();
-      int documentCount = querySnapshot.docs.length;
+      int documentCount = querySnapshot.docs.length+1;
 
 
 

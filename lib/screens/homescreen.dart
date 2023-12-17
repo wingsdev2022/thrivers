@@ -385,8 +385,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     //print('Images ${documents[index]['Images'].length}');
                     //todo Pass this time
 
+                    int ind = 1;
+                    if(documents.length==0){
+                      ind = 0;
+                    }
 
-                    if(index==1){
+                    if(index==ind){
                       return Column(
                         children: [
                           Padding(
