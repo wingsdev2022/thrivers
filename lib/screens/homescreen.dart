@@ -386,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //todo Pass this time
 
 
-                    if(index==0){
+                    if(index==1){
                       return Column(
                         children: [
                           Padding(
@@ -407,6 +407,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       );
                     }
+
                     else{
                       return ThriversListTile(documents[index]);
                     }
@@ -476,25 +477,27 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               SizedBox(width: 10,),
-              CircleAvatar(
-                backgroundImage: NetworkImage("https://static.vecteezy.com/system/resources/previews/005/129/844/original/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"),
-                radius: 30,child: Padding(
-                padding: EdgeInsets.only(left:40.0,top:40),
-                //child: CircleAvatar(radius:10,backgroundColor: Colors.white,child: CircleAvatar(radius:8,backgroundColor: thriversDetails['Status']=="Online"?Colors.green:Colors.red,),),
-              ),),
+              Text(thriversDetails.id,style: Theme.of(context).textTheme.bodySmall),
               SizedBox(width: 20,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(thriversDetails['Name'],style: Theme.of(context).textTheme.titleMedium),
+                  Text(thriversDetails['Description'],style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.grey)),
                   SizedBox(height: 5,),
                   Row(
                     children: [
-                      Padding(
-                        padding:  EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.email,color: Colors.grey,),
-                      ),
+                      Icon(Icons.circle,size: 10,),
+                      SizedBox(width: 10,),
                       Text(thriversDetails["Country"],style: Theme.of(context).textTheme.bodySmall),
+                      SizedBox(width: 10,),
+                      Icon(Icons.circle,size: 10,),
+                      SizedBox(width: 10,),
+                      Text(thriversDetails["JobRoles"],style: Theme.of(context).textTheme.bodySmall),
+                      SizedBox(width: 10,),
+                      Icon(Icons.circle,size: 10,),
+                      SizedBox(width: 10,),
+                      Text(thriversDetails["Industry"],style: Theme.of(context).textTheme.bodySmall),
                     ],
                   )
                 ],
@@ -551,9 +554,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   iconSize: 30,
                   color: primaryColorOfApp,
                   onPressed: () async {
-                    /*ProgressDialog.show(context, "Deleting Users",Icons.person);
+                    ProgressDialog.show(context, "Deleting Users",Icons.person);
                     await ApiRepository().DeleteSectionPreset(thriversDetails.reference);
-                    ProgressDialog.hide();*/
+                    ProgressDialog.hide();
                   },
                   icon: Icon(Icons.delete,)),
               SizedBox(width: 40,),
@@ -608,7 +611,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    //color: Colors.white,
                     border: Border.all(
                         //color:primaryColorOfApp ,
                         width: 2.0),
@@ -659,7 +662,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      'Okay',
+                      'Add',
                       style: GoogleFonts.montserrat(
                           textStyle:
                           Theme.of(context).textTheme.titleSmall,
@@ -708,12 +711,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           contentPadding: EdgeInsets.all(25),
                           labelText: "Thriver Name",
                           hintText: "Thriver Name",
-                          prefixIcon: Padding(
+                          /*prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(Icons.question_mark_outlined,
                              // color: primaryColorOfApp
                               ),
-                          ),
+                          ),*/
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
                               fontWeight: FontWeight.w400,
@@ -751,12 +754,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           contentPadding: EdgeInsets.all(25),
                           labelText: "Thriver Description",
                           hintText: "Thriver Description",
-                          prefixIcon: Padding(
+                          /*prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(Icons.question_mark_outlined,
                               //color: primaryColorOfApp
                               ),
-                          ),
+                          ),*/
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
                               fontWeight: FontWeight.w400,
@@ -874,12 +877,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           contentPadding: EdgeInsets.all(25),
                           labelText: "Job Roles",
                           hintText: "Job Roles",
-                          prefixIcon: Padding(
+                          /*prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(Icons.question_mark_outlined,
                              // color: primaryColorOfApp
                               ),
-                          ),
+                          ),*/
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
                               fontWeight: FontWeight.w400,
@@ -900,6 +903,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     //Industry
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        // maxLines: null,
+                        controller: industryTextEditingController,
+                        //cursorColor: primaryColorOfApp,
+                        onChanged: (value) {
+
+                        },
+                        style: GoogleFonts.montserrat(
+                            textStyle: Theme.of(context).textTheme.bodyLarge,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black),
+                        decoration: InputDecoration(
+                          //errorText: userAccountSearchErrorText,
+                          contentPadding: EdgeInsets.all(25),
+                          labelText: "Industry",
+                          hintText: "Industry",
+                          /*prefixIcon: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.question_mark_outlined,
+                              // color: primaryColorOfApp
+                            ),
+                          ),*/
+                          errorStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.redAccent),
+
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(15)),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black12),
+                              borderRadius: BorderRadius.circular(15)),
+                          //hintText: "e.g Abouzied",
+                          labelStyle: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black45),
+                        ),
+                      ),
+                    ),
                     //Solution List
 
                     //SHow a dialog on checks with TREE
@@ -1132,10 +1178,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    //color: Colors.white,
                     border: Border.all(
                         //color:primaryColorOfApp
-           width: 2.0),
+                    width: 2.0),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Center(

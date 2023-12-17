@@ -39,12 +39,14 @@ class ApiRepository{
     try {
       // Replace 'your_collection' with your actual collection name
       CollectionReference collectionReference = FirebaseFirestore.instance.collection('Thrivers');
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Thrivers').get();
+      int documentCount = querySnapshot.docs.length;
+
 
 
       // Add the document to the collection
-      DocumentReference documentReference = await collectionReference.add(thriversData);
+      await collectionReference.doc("TH$documentCount").set(thriversData);
 
-      print('Document created with ID: ${documentReference.id}');
     } catch (e) {
       print('Error creating document: $e');
     }
