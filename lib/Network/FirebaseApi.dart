@@ -28,6 +28,28 @@ class ApiRepository{
   static const BREVO_BASE_URL = "https://api.brevo.com/v3";
 
 
+
+  //Flutter get all the Thrivers
+
+
+
+  //Get Solutions
+  //Get
+  Future<void> createThriver(Map<String, dynamic> thriversData) async {
+    try {
+      // Replace 'your_collection' with your actual collection name
+      CollectionReference collectionReference = FirebaseFirestore.instance.collection('Thrivers');
+
+
+      // Add the document to the collection
+      DocumentReference documentReference = await collectionReference.add(thriversData);
+
+      print('Document created with ID: ${documentReference.id}');
+    } catch (e) {
+      print('Error creating document: $e');
+    }
+  }
+
   static Future<String?> uploadBytesAndGetDownloadUrl(String destination, Uint8List data) async {
     try {
       String downloadUrl = "";

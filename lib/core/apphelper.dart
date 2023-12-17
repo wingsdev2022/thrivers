@@ -67,51 +67,52 @@ class _MultiSelectState extends State<MultiSelect> {
                   child: Container(
                     width: size.width * 0.9,
                     child: TypeAheadField(
-                      noItemsFoundBuilder: (BuildContext context) {
 
-                        return ListTile(
+                        textFieldConfiguration:TextFieldConfiguration(
+                          controller: textEditingController,
+                          //autofocus: true,
 
-                          title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                          //subtitle: Text("Add Some Details Here"),
-                        );
-                      },
-                      textFieldConfiguration: TextFieldConfiguration(
-                        controller: textEditingController,
-                        //autofocus: true,
-
-                        style: GoogleFonts.montserrat(
-                            textStyle: Theme.of(context).textTheme.bodyLarge,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-
-                        cursorColor: primaryColorOfApp,
-
-                        decoration: InputDecoration(
-                          //errorText: firstNameErrorText,
-
-                          contentPadding: EdgeInsets.all(25),
-                          hintText:  "Search & Send Invites ...",
-                          labelText: "Type/Tap On Name to Add",
-                          errorStyle: GoogleFonts.montserrat(
-                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                          style: GoogleFonts.montserrat(
+                              textStyle: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyLarge,
                               fontWeight: FontWeight.w400,
-                              color: Colors.redAccent),
-                          enabledBorder:OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white12),
-                              borderRadius: BorderRadius.circular(100)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(100)),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white12),
-                              borderRadius: BorderRadius.circular(100)),
-                          //hintText: "e.g Abouzied",
-                          labelStyle: GoogleFonts.montserrat(
-                              textStyle: Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white54),
+                              color: Colors.white),
+
+
+                          decoration: InputDecoration(
+                            //errorText: firstNameErrorText,
+
+                            contentPadding: EdgeInsets.all(25),
+                            hintText: "Search & Send Invites ...",
+                            labelText: "Type/Tap On Name to Add",
+                            errorStyle: GoogleFonts.montserrat(
+                                textStyle: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.redAccent),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white12),
+                                borderRadius: BorderRadius.circular(100)),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(100)),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white12),
+                                borderRadius: BorderRadius.circular(100)),
+                            //hintText: "e.g Abouzied",
+                            labelStyle: GoogleFonts.montserrat(
+                                textStyle: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white54),
+                          ),
                         ),
-                      ),
                       suggestionsCallback: (pattern) async {
                         return await AuthorityServices.getSuggestions(pattern);
                       },

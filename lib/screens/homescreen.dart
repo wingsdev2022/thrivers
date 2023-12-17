@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_state_city/utils/country_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tree/flutter_tree.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -37,11 +38,16 @@ class _HomeScreenState extends State<HomeScreen> {
   List<DocumentSnapshot> documents = [];
 
   List<String> listOfUserToAdd = [];
-  TextEditingController newJobTitleTextEditingController = TextEditingController();
-  TextEditingController userAccountSearchTextEditingController = TextEditingController();
+  TextEditingController thriverNameTextEditingController = TextEditingController();
+  TextEditingController thriverDescTextEditingController = TextEditingController();
   TextEditingController catergoryTextEditingController = TextEditingController();
   TextEditingController textEditingController = TextEditingController();
   TextEditingController subcategoryTextEditingController = TextEditingController();
+  TextEditingController challangesTextEditingController = TextEditingController();
+  TextEditingController solutionsTextEditingController = TextEditingController();
+  TextEditingController countryTextEditingController = TextEditingController();
+  TextEditingController industryTextEditingController = TextEditingController();
+
 
   String? userAccountSearchErrorText;
 
@@ -49,7 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<String> mySelectedUsers = [];
 
-  bool showTreeView = true;
+  List<DocumentReference> challengesDocRefs = [];
+  List<DocumentReference> solutionsDocRefs = [];
+
+  bool showTreeView = false;
 
   static List<Animal> _animals = [
     Animal(id: 1, name: "Lion"),
@@ -107,6 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
     {"parentId": 1009, "value": "镇江市", "id": 1134},
   ];
 
+  List<String> challanges = [];
+  List<DocumentReference> challangeDocRefs = [];
+
   Future<List<TreeNodeData>> _load(TreeNodeData parent) async {
     await Future.delayed(const Duration(seconds: 1));
     final data = [
@@ -158,180 +170,184 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Wrap(
           children: [
             HeaderWidget(),
-            Flexible(child: Container(
+            Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: Container(
-                          width: size.width * 0.9,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
 
-                              return ListTile(
+                    Padding(
+                      child: Container(
+                        width: size.width * 0.2,
+                        child: TypeAheadField(
+                          noItemsFoundBuilder: (BuildContext context) {
 
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: catergoryTextEditingController,
-                              //autofocus: true,
+                            return ListTile(
 
-                              style: GoogleFonts.montserrat(
+                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: catergoryTextEditingController,
+                            //autofocus: true,
+
+                            style: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                ///color: Colors.white
+                            ),
+
+
+
+                            decoration: InputDecoration(
+                              //errorText: firstNameErrorText,
+
+                              contentPadding: EdgeInsets.all(0),
+                              hintText:  "Type & Search",
+                              labelText: "Select Category",
+                              errorStyle: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
-                                  ///color: Colors.white
-                              ),
-
-
-
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
-
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Type & Search",
-                                labelText: "Select Category",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                             // textEditingController.clear();
-                              catergoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
-                          ),
-                        ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
-                      ),
-                    ),
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: Container(
-                          width: size.width * 0.9,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
-
-                              return ListTile(
-
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: subcategoryTextEditingController,
-                              //autofocus: true,
-
-                              style: GoogleFonts.montserrat(
+                                  color: Colors.redAccent),
+                              //hintText: "e.g Abouzied",
+                              labelStyle: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
-                                  //color: Colors.white
-                              ),
-
-
-
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
-
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Select Subcategory",
-                                labelText: "Select Subcategory",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                              subcategoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
-                          ),
-                        ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
-                      ),
-                    ),
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: MultiSelectDialogField(
-                          buttonText: Text(
-                            "Select Colums to Display",
-                            style: TextStyle(
-                              color: Colors.blue[800],
-                              fontSize: 16,
+                                  color: Colors.black),
                             ),
                           ),
-                          title: Text("Columns to Display"),
-                          items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
-                          listType: MultiSelectListType.CHIP,
-                          onConfirm: (values) {
-                            _selectedAnimals2 = values;
+                          suggestionsCallback: (pattern) async {
+                            return await AuthorityServices.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion.toString()),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                           // textEditingController.clear();
+                            catergoryTextEditingController.text = suggestion;
+                            //innerState((){});
                           },
                         ),
-                        padding: EdgeInsets.only(top: 25,bottom: 20,right: 20),
                       ),
+                      padding: EdgeInsets.only(top: 20,bottom: 20),
                     ),
-                    Expanded(child: Center(child: InkWell(
+
+                    Padding(
+                      child: Container(
+                        width: size.width * 0.2,
+                        child: TypeAheadField(
+                          noItemsFoundBuilder: (BuildContext context) {
+
+                            return ListTile(
+
+                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: subcategoryTextEditingController,
+                            //autofocus: true,
+
+                            style: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                //color: Colors.white
+                            ),
+
+
+
+                            decoration: InputDecoration(
+                              //errorText: firstNameErrorText,
+
+                              contentPadding: EdgeInsets.all(0),
+                              hintText:  "Select Subcategory",
+                              labelText: "Select Subcategory",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+
+                              //hintText: "e.g Abouzied",
+                              labelStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            return await AuthorityServices.getSuggestions(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              title: Text(suggestion.toString()),
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                            subcategoryTextEditingController.text = suggestion;
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: EdgeInsets.only(top: 20,bottom: 20),
+                    ),
+
+                    Padding(
+                      child: MultiSelectDialogField(
+                        buttonText: Text(
+                          "Select Colums to Display",
+                          style: TextStyle(
+                            color: Colors.blue[800],
+                            fontSize: 16,
+                          ),
+                        ),
+                        title: Text("Columns to Display"),
+                        items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
+                        listType: MultiSelectListType.CHIP,
+                        onConfirm: (values) {
+                          _selectedAnimals2 = values;
+                        },
+                      ),
+                      padding: EdgeInsets.only(top: 25,bottom: 20,right: 20),
+                    ),
+                    Center(child: InkWell(
                         onTap: (){
                           showTreeView = !showTreeView;
                           setState(() {});
                         },
-                        child: (!showTreeView)?FaIcon(FontAwesomeIcons.folderTree):FaIcon(FontAwesomeIcons.list))),flex: 1,),
-                    Expanded(child: Container(),),
-                    Expanded(child: Center(child: InkWell(
+                        child: (!showTreeView)?FaIcon(FontAwesomeIcons.folderTree):FaIcon(FontAwesomeIcons.list))),
+
+                    Center(child: InkWell(
                         onTap: (){
                           showAddThriverDialogBox(setState);
                         },
-                        child: FaIcon(FontAwesomeIcons.add))),flex: 1,),
-                    Expanded(child: Container(),)
+                        child: FaIcon(FontAwesomeIcons.add))),
+
                   ],
                 )
-            ),flex: 1,),
-            Flexible(child: Container(child:
+            ),
+            Container(child:
             StreamBuilder(
-              stream: thriversCollection.snapshots(),
+                // FirebaseFirestore.instance
+                //     .collection('users')
+                //     .where('age', isGreaterThan: 20)
+                //     .get()
+                //     .then(...);
+                //
+                // .where('age', isGreaterThan: 20)
+                // .get()
+              stream: thriversCollection
+                  .where('Name', isGreaterThanOrEqualTo: textEditingController.text)
+                  .where('Name', isLessThanOrEqualTo: textEditingController.text + '\uf8ff').snapshots(),
               builder: (ctx,AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                 if (streamSnapshot.connectionState ==
                     ConnectionState.waiting) {
@@ -375,44 +391,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                            child: TextField(),
+                            child: TextField(
+                              onChanged: (val){
+                                searchText = val;
+                              },
+                              onSubmitted: (v){
+                                setState(() {
+
+                                });
+                              },
+                            ),
                           ),
                           SizedBox(height: 20,),
                           ThriversListTile(documents[index])
                         ],
                       );
                     }
+                    else{
+                      return ThriversListTile(documents[index]);
+                    }
 
-
-                    return ThriversListTile(documents[index]);
-                    /*return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(documents[index]['ProfilePhoto']),
-
-                      radius: 60,child: Padding(
-                      padding: EdgeInsets.only(left:30.0,top:28),
-                      child: CircleAvatar(radius:10,backgroundColor: Colors.white,child: CircleAvatar(radius:8,backgroundColor: Colors.green,),),
-                    ),),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                    title: Text(documents[index]['FirstName']+" "+documents[index]['LastName']),
-                    subtitle: Text(documents[index]['MobileNumber']),
-                    trailing: InkWell(
-                      onTap: (){
-                        _displayTextInputDialog(context,documents[index].id,documents[index]['ProfilePhoto'],documents[index]['FirstName']+" "+documents[index]['LastName']);
-                      },
-                      child: Container(
-                        width: 200,
-                        child: Row(
-                          children: [
-                            Text("Change Login Pin",style: TextStyle(color: primaryColorOfApp),),
-                            SizedBox(width: 10,),
-                            Icon(Icons.edit, color: primaryColorOfApp, size: 22),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  );*/
                   },
                 ):Container(
                   child: TreeView(
@@ -463,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-            ),),flex: 8,),
+            ),),
           ],
         ),
       ),
@@ -585,270 +583,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void showListOfInvitedPeopleToEvent(DocumentReference documentReference,String eventName) {
-
-    ///List of All tickets
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          /*bool _mandatorySection  = false;
-          List _dataItems = [];
-*/
-          var size = MediaQuery.of(context).size;
-
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-             // side: BorderSide(color: primaryColorOfApp),
-              borderRadius: BorderRadius.circular(0),
-            ),
-            backgroundColor: Colors.black,
-            actions: <Widget>[
-              InkWell(
-                onTap: (){
-
-
-                  //ApiRepository().UpdateSectionPreset(documentReference,data);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: size.width*0.2,
-                  margin: EdgeInsets.all(10),
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: Border.all(
-                        //color:primaryColorOfApp
-                        width: 2.0),
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Cancel',
-                      style: GoogleFonts.montserrat(
-                          textStyle:
-                          Theme.of(context).textTheme.titleMedium,
-                          ///color: primaryColorOfApp
-                      ),
-                    ),
-                  ),
-                ),
-
-              ),
-              InkWell(
-                onTap: (){
-
-                  //ApiRepository().UpdateSectionPreset(documentReference,data);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: size.width*0.2,
-                  margin: EdgeInsets.all(10),
-                  height: 60,
-                  decoration: BoxDecoration(
-                   /// color: primaryColorOfApp,
-                    border: Border.all(
-                       // color:primaryColorOfApp,
-                        width: 2.0),
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Done',
-                      style: GoogleFonts.montserrat(
-                          textStyle:
-                          Theme.of(context).textTheme.titleMedium,
-                          color: Colors.black),
-                    ),
-                  ),
-                ),
-
-              ),
-            ],
-            title:Row(
-              children: [
-                Text("List of Invited Participants for ",style: TextStyle(
-                    //color: primaryColorOfApp
-                ),),
-                Text(eventName,style: TextStyle(
-                    //color: primaryColorOfApp,
-          fontWeight: FontWeight.bold),),
-              ],
-            ),
-            /*>question (answer free text)
-                            >question (yes, no)
-                            >question (multiple choice)
-                            >question (single choice)
-                            >question (prompts -  text/videos & audios)
-                            */
-            content: Container(
-              width: MediaQuery.of(context).size.width*0.6,
-
-              child:StatefulBuilder(
-                  builder: (context,innerState) {
-                    return FutureBuilder(
-                      builder: (ctx, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        // Checking if future is resolved or not
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          // If we got an error
-                          if (snapshot.hasError) {
-                            return Text(snapshot.error.toString(),
-                                style: GoogleFonts.montserrat(
-                                    textStyle:
-                                    Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.red));
-
-                            // if we got our data
-                          } else if (snapshot.hasData) {
-                            // Extracting data from snapshot object
-                            /*DocumentSnapshot? doc = snapshot.data;
-                            //Map valueMap = jsonDecode(data);
-
-                            ///All the individual data Items Will Come Here
-                            _dataItems = snapshot.data?.get("DataItems");
-
-                            renameSectionNameTextEditingController.text = (doc?.id??"").toString();
-                            renameSectionHelperTextEditingController.text = doc?.get("HelperText");
-
-                            _mandatorySection = doc?.get("mandatory");*/
-
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextField(
-                                    controller: newJobTitleTextEditingController,
-                                    //cursorColor: primaryColorOfApp,
-                                    onChanged: (value) {
-
-                                    },
-                                    style: GoogleFonts.montserrat(
-                                        textStyle: Theme.of(context).textTheme.bodyLarge,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white),
-                                    decoration: InputDecoration(
-                                      //errorText: userAccountSearchErrorText,
-                                      contentPadding: EdgeInsets.all(25),
-                                      labelText: "Search by Name / Reference Number",
-                                      hintText: "Search by Name / Reference Number",
-                                      prefixIcon: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.search,color: Colors.grey,)
-                                      ),
-                                      errorStyle: GoogleFonts.montserrat(
-                                          textStyle: Theme.of(context).textTheme.bodyLarge,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.redAccent),
-                                      enabledBorder:OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.white12),
-                                          borderRadius: BorderRadius.circular(100)),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.white),
-                                          borderRadius: BorderRadius.circular(100)),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.white12),
-                                          borderRadius: BorderRadius.circular(100)),
-                                      //hintText: "e.g Abouzied",
-                                      labelStyle: GoogleFonts.montserrat(
-                                          textStyle: Theme.of(context).textTheme.bodyLarge,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white54),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: GridView.builder(
-                                      shrinkWrap: true,
-                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: size.width<200?1:2,
-                                        crossAxisSpacing: 10.0,
-                                        //childAspectRatio: (1 / .4),
-                                        mainAxisExtent: 120,
-                                        mainAxisSpacing: 20.0,
-                                      ),
-                                      itemCount: 20,
-                                      itemBuilder: (c,i){
-                                        return Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text("#21901201920",style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w300),),
-                                                SizedBox(height: 10,),
-                                                CircleAvatar(
-                                                  radius: 45,
-                                                  backgroundImage: NetworkImage("https://pbs.twimg.com/media/FvH59kqaUAI7F70?format=jpg&name=4096x4096"),
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text("Alia Bhatt",style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w300),),
-                                                Row(
-                                                  children: [
-                                                    Icon(Icons.alternate_email,size: 20,),
-                                                    SizedBox(width: 5,),
-                                                    Text("aliabhatt.mukesh@gmail.com",style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Icon(Icons.call,size: 20,),
-                                                    SizedBox(width: 5,),
-                                                    Text("+91-8779559898",style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(width: 10,),
-
-                                            SizedBox(width: 10,),
-                                            IconButton(
-                                              icon: Icon(Icons.delete,),
-                                              onPressed: () async {
-                                             //   await ApiRepository().DeleteEvent(documentReference);
-                                                setState(() {
-
-                                                });
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                ),
-                              ],
-                            );
-                          }
-                        }
-
-                        // Displaying LoadingSpinner to indicate waiting state
-                        return Center(
-                          child: CircularProgressIndicator(
-                           // color: primaryColorOfApp,
-                          ),
-                        );
-                      },
-
-                      // Future that needs to be resolved
-                      // inorder to display something on the Canvas
-                      future: fetchEventDetails(documentReference),
-                    );
-                  }
-              ),
-
-
-            ),
-          );
-        }
-    );
-
-  }
 
   Future<DocumentSnapshot> fetchEventDetails(DocumentReference docRef) async {
     //Fetch List of All the tickets
@@ -897,16 +631,20 @@ class _HomeScreenState extends State<HomeScreen> {
               InkWell(
                 onTap: () async {
                   ////ApiRepository().updateSecurityPINFor(userAccountId,newPinTextEditingController.text);
-                  List tempArrays = [];
-                  for(int i=0;i<6;i++){
-                    tempArrays.add(textControllers[i].text);
-                  }
-                  dataItems.add({"AnswerMultipleChoice":
-                  tempArrays
-                  });
-                  innerState(() {
 
-                  });
+                  ProgressDialog.show(context, "Creating a Thriver", Icons.chair);
+                  await ApiRepository().createThriver({
+                      'Name': thriverNameTextEditingController.text,
+                      'Description': thriverDescTextEditingController.text,
+                      'JobRoles':thriverDescTextEditingController.text,
+                      'Industry':industryTextEditingController.text,
+                      'Country':countryTextEditingController.text,
+                      'Challenges':challangeDocRefs,
+                      'Solutions':solutionsDocRefs
+                       // Add more fields as needed
+                   }
+                  );
+                  ProgressDialog.hide();
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -948,7 +686,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             content: SizedBox(
               width: double.maxFinite,
-              height: MediaQuery.of(context).size.height*0.5,
+              //height: MediaQuery.of(context).size.height*0.5,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -956,7 +694,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        controller: textControllers[0],
+                        controller: thriverNameTextEditingController,
                        // cursorColor: primaryColorOfApp,
                         onChanged: (value) {
 
@@ -999,7 +737,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         maxLines: null,
-                        controller: textControllers[0],
+                        controller: thriverDescTextEditingController,
                         //cursorColor: primaryColorOfApp,
                         onChanged: (value) {
 
@@ -1052,7 +790,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           textFieldConfiguration: TextFieldConfiguration(
-                            controller: catergoryTextEditingController,
+                            controller: countryTextEditingController,
                             //autofocus: true,
 
                             style: GoogleFonts.montserrat(
@@ -1073,13 +811,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.redAccent),
                               enabledBorder:OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
+                                  borderRadius: BorderRadius.circular(15)),
                               focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
+                                  borderRadius: BorderRadius.circular(15)),
                               border: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
+                                  borderRadius: BorderRadius.circular(15)),
                               //hintText: "e.g Abouzied",
                               labelStyle: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -1088,7 +826,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           suggestionsCallback: (pattern) async {
-                            return await AuthorityServices.getSuggestions(pattern);
+                            List<String> itemList = [];
+                            await getAllCountries().then((value) {
+                              value.forEach((element) {
+                                if(element.name.contains(pattern)){
+                                  itemList.add(element.name);
+                                }
+                              });
+                            });
+                            return itemList;
                           },
                           itemBuilder: (context, suggestion) {
                             return ListTile(
@@ -1100,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onSuggestionSelected: (suggestion) {
                             print("Im selected");
                             print(suggestion);
-                            catergoryTextEditingController.text = suggestion;
+                            countryTextEditingController.text = suggestion;
                             // textEditingController.clear();
                             //mySelectedUsers.add(suggestion.toString());
                             //innerState((){});
@@ -1159,11 +905,166 @@ class _HomeScreenState extends State<HomeScreen> {
                     //SHow a dialog on checks with TREE
                     //On Selection Show them on with CHips
 
-                    TextButton(onPressed: (){
-                          showSelectChallengesWidget();
-                    }, child: Text("Select Challenges")),
 
-                    Wrap(
+                    Padding(
+                      child: Container(
+                        child: TypeAheadField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: challangesTextEditingController,
+                            style: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(25),
+                              hintText:  "Type & Search",
+                              labelText: "Select Challenges",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+                              enabledBorder:OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              labelStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            List<DocumentSnapshot> itemList = [];
+                            await FirebaseFirestore.instance.collection('Challenges')
+                                .where('ChallengeName', isGreaterThanOrEqualTo: pattern)
+                                .where('ChallengeName', isLessThanOrEqualTo: pattern + '\uf8ff')
+                                .get().then((value) {
+                              itemList.addAll(value.docs);
+                            });
+                            return itemList;
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return CheckboxListTile(
+                              value: challanges.contains(suggestion.get("ChallengeName")),
+                              title: Text(suggestion.get("ChallengeName")),
+                              onChanged: (value){
+                                if(challanges.contains(suggestion.get("ChallengeName"))){
+                                  challanges.remove(suggestion.get("ChallengeName"));
+                                  challangeDocRefs.remove(suggestion.reference);
+                                }else{
+                                  challanges.add(suggestion.get("ChallengeName"));
+                                  challangeDocRefs.add(suggestion.reference);
+                                }
+                                print("challanges");
+                                print(challanges);
+                              },
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                          //  challanges
+                            // textEditingController.clear();
+                            //mySelectedUsers.add(suggestion.toString());
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                    ),
+                    Padding(
+                      child: Container(
+                        child: TypeAheadField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: challangesTextEditingController,
+                            style: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(25),
+                              hintText:  "Type & Search",
+                              labelText: "Select Solutions",
+                              errorStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.redAccent),
+                              enabledBorder:OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(15)),
+                              labelStyle: GoogleFonts.montserrat(
+                                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            List<DocumentSnapshot> itemList = [];
+                            await FirebaseFirestore.instance.collection('Solutions')
+                                .where('Name', isGreaterThanOrEqualTo: pattern)
+                                .where('Name', isLessThanOrEqualTo: pattern + '\uf8ff')
+                                .get().then((value) {
+                              itemList.addAll(value.docs);
+                            });
+                            return itemList;
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return CheckboxListTile(
+                              value: challanges.contains(suggestion.get("Name")),
+                              title: Text(suggestion.get("Name")),
+                              onChanged: (value){
+                                if(challanges.contains(suggestion.get("Name"))){
+                                  challanges.remove(suggestion.get("Name"));
+                                  challangeDocRefs.remove(suggestion.reference);
+                                }else{
+                                  challanges.add(suggestion.get("Name"));
+                                  challangeDocRefs.add(suggestion.reference);
+                                }
+                                print("challanges");
+                                print(challanges);
+                              },
+                              //subtitle: Text("Add Some Details Here"),
+                            );
+                          },
+
+                          onSuggestionSelected: (suggestion) {
+                            print("Im selected");
+                            print(suggestion);
+                            //  challanges
+                            // textEditingController.clear();
+                            //mySelectedUsers.add(suggestion.toString());
+                            //innerState((){});
+                          },
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                    ),
+                   /* Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: TextButton(onPressed: (){
+                            showSelectChallengesWidget();
+                      }, child: Row(
+                        children: [
+                          Icon(Icons.arrow_drop_down_sharp),
+                          Text("Select Challenges",
+                                style: TextStyle(fontSize: 20),
+
+                          ),
+                        ],
+                      )),
+                    ),*/
+                    false?Wrap(
                       spacing: 5,
                       children: List.generate(
                         10,
@@ -1178,13 +1079,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
-                    ),
-
-                    TextButton(onPressed: (){
-                      showSelectChallengesWidget();
-                    }, child: Text("Select Solutions")),
-
-                    Wrap(
+                    ):Container(),
+                   /* Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: TextButton(onPressed: (){
+                        showSelectChallengesWidget();
+                      }, child: Row(
+                        children: [
+                          Icon(Icons.arrow_drop_down_sharp),
+                          Text("Select Solutions",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      )),
+                    ),*/
+                    false?Wrap(
                       spacing: 5,
                       children: List.generate(
                         10,
@@ -1199,7 +1108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
-                    ),
+                    ):Container(),
                   ]
               ),
             ),
@@ -1271,21 +1180,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
               ),
             ],
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text("Select Challenges",style: GoogleFonts.montserrat(
-                      color: Colors.black)),
-                ),
-                Text("(ID:TH0010) ",style: GoogleFonts.montserrat(textStyle:
-                Theme.of(context).textTheme.titleSmall,)),
-              ],
+            title:Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Select Challenges",style: GoogleFonts.montserrat(
+                  color: Colors.black)),
             ),
             content: SizedBox(
               width: double.maxFinite*0.7,
-              height: MediaQuery.of(context).size.height*0.5,
               child: TreeView(
                 data: treeData,
                 lazy: true,
