@@ -154,77 +154,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Material(
 
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(
+        //backgroundColor: Colors.black,
+        body: Wrap(
           children: [
+            HeaderWidget(),
             Flexible(child: Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(flex: 8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: userAccountSearchTextEditingController,
-                          cursorColor: primaryColorOfApp,
-                          onChanged: (value) {
-                            setState(() {
-                              searchText = value;
-                            });
-                          },
-                          style: GoogleFonts.poppins(
-                              textStyle: Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.w400,
-                              color: primaryColorOfApp),
-                          decoration: InputDecoration(
-                            errorText: userAccountSearchErrorText,
-                            contentPadding: EdgeInsets.all(25),
-                            labelText: "Search Thriver Name",
-                            hintText: "Enter a Name",
-                            prefixIconColor: primaryColorOfApp,
-
-                            prefixIcon: Padding(
-                                padding: EdgeInsets.only(left: 10,right: 10),
-                                child: Icon(Icons.search)),
-                            errorStyle: GoogleFonts.poppins(
-                                textStyle: Theme.of(context).textTheme.bodyLarge,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.redAccent),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: primaryColorOfApp),
-                                borderRadius: BorderRadius.circular(100)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: primaryColorOfApp,width: 2),
-                                borderRadius: BorderRadius.circular(100)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: primaryColorOfApp),
-                                borderRadius: BorderRadius.circular(100)),
-                            //hintText: "e.g Abouzied",
-                            labelStyle: GoogleFonts.poppins(
-                                textStyle: Theme.of(context).textTheme.bodyLarge,
-                                fontWeight: FontWeight.w400,
-                                color: primaryColorOfApp),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Expanded(child: Center(child: InkWell(
-                        onTap: (){
-                          showTreeView = !showTreeView;
-                          setState(() {});
-                        },
-                        child: FaIcon(FontAwesomeIcons.filter,color: primaryColorOfApp,))),flex: 1,),
-                    Expanded(child: Center(child: InkWell(
-                        onTap: (){
-                          showAddThriverDialogBox(setState);
-                        },
-                        child: FaIcon(FontAwesomeIcons.add,color: primaryColorOfApp,))),flex: 1,),
-                  ],
-                )
-            ),flex: 1,),
-            Flexible(child: Container(
-                child: Row(
-                  children: [
+                    Expanded(child: Container(),),
                     Expanded(flex: 8,
                       child: Padding(
                         child: Container(
@@ -245,34 +183,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                                  ///color: Colors.white
+                              ),
 
-                              cursorColor: primaryColorOfApp,
+
 
                               decoration: InputDecoration(
                                 //errorText: firstNameErrorText,
 
-                                contentPadding: EdgeInsets.all(25),
+                                contentPadding: EdgeInsets.all(0),
                                 hintText:  "Type & Search",
-                                labelText: "Select Catrgory",
+                                labelText: "Select Category",
                                 errorStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.redAccent),
-                                enabledBorder:OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white12),
-                                    borderRadius: BorderRadius.circular(100)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(100)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white12),
-                                    borderRadius: BorderRadius.circular(100)),
                                 //hintText: "e.g Abouzied",
                                 labelStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.white54),
+                                    color: Colors.black),
                               ),
                             ),
                             suggestionsCallback: (pattern) async {
@@ -289,14 +219,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               print("Im selected");
                               print(suggestion);
                              // textEditingController.clear();
-                              mySelectedUsers.add(suggestion.toString());
+                              catergoryTextEditingController.text = suggestion;
                               //innerState((){});
                             },
                           ),
                         ),
-                        padding: EdgeInsets.only(top: 0,bottom: 20),
+                        padding: EdgeInsets.only(top: 20,bottom: 20),
                       ),
                     ),
+                    Expanded(child: Container(),),
                     Expanded(flex: 8,
                       child: Padding(
                         child: Container(
@@ -311,40 +242,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             textFieldConfiguration: TextFieldConfiguration(
-                              controller: textEditingController,
+                              controller: subcategoryTextEditingController,
                               //autofocus: true,
 
                               style: GoogleFonts.montserrat(
                                   textStyle: Theme.of(context).textTheme.bodyLarge,
                                   fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                                  //color: Colors.white
+                              ),
 
-                              cursorColor: primaryColorOfApp,
+
 
                               decoration: InputDecoration(
                                 //errorText: firstNameErrorText,
 
-                                contentPadding: EdgeInsets.all(25),
-                                hintText:  "Type & Search",
-                                labelText: "Type/Tap On Name to Add",
+                                contentPadding: EdgeInsets.all(0),
+                                hintText:  "Select Subcategory",
+                                labelText: "Select Subcategory",
                                 errorStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.redAccent),
-                                enabledBorder:OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white12),
-                                    borderRadius: BorderRadius.circular(100)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(100)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white12),
-                                    borderRadius: BorderRadius.circular(100)),
+
                                 //hintText: "e.g Abouzied",
                                 labelStyle: GoogleFonts.montserrat(
                                     textStyle: Theme.of(context).textTheme.bodyLarge,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.white54),
+                                    color: Colors.black),
                               ),
                             ),
                             suggestionsCallback: (pattern) async {
@@ -360,38 +284,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             onSuggestionSelected: (suggestion) {
                               print("Im selected");
                               print(suggestion);
-                              textEditingController.clear();
-                              mySelectedUsers.add(suggestion.toString());
+                              subcategoryTextEditingController.text = suggestion;
                               //innerState((){});
                             },
                           ),
                         ),
-                        padding: EdgeInsets.only(top: 0,bottom: 20),
+                        padding: EdgeInsets.only(top: 20,bottom: 20),
                       ),
                     ),
+                    Expanded(child: Container(),),
                     Expanded(flex: 8,
                       child: Padding(
-                        child: Container(
-                          width: size.width * 0.9,
-                          child: MultiSelectDialogField(
-                            buttonText: Text(
-                              "Select Colums to Display",
-                              style: TextStyle(
-                                color: Colors.blue[800],
-                                fontSize: 16,
-                              ),
+                        child: MultiSelectDialogField(
+                          buttonText: Text(
+                            "Select Colums to Display",
+                            style: TextStyle(
+                              color: Colors.blue[800],
+                              fontSize: 16,
                             ),
-                            title: Text("Columns to Display"),
-                            items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
-                            listType: MultiSelectListType.CHIP,
-                            onConfirm: (values) {
-                              _selectedAnimals2 = values;
-                            },
                           ),
+                          title: Text("Columns to Display"),
+                          items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
+                          listType: MultiSelectListType.CHIP,
+                          onConfirm: (values) {
+                            _selectedAnimals2 = values;
+                          },
                         ),
-                        padding: EdgeInsets.only(top: 0,bottom: 20),
+                        padding: EdgeInsets.only(top: 25,bottom: 20,right: 20),
                       ),
                     ),
+                    Expanded(child: Center(child: InkWell(
+                        onTap: (){
+                          showTreeView = !showTreeView;
+                          setState(() {});
+                        },
+                        child: (!showTreeView)?FaIcon(FontAwesomeIcons.folderTree):FaIcon(FontAwesomeIcons.list))),flex: 1,),
+                    Expanded(child: Container(),),
+                    Expanded(child: Center(child: InkWell(
+                        onTap: (){
+                          showAddThriverDialogBox(setState);
+                        },
+                        child: FaIcon(FontAwesomeIcons.add))),flex: 1,),
+                    Expanded(child: Container(),)
                   ],
                 )
             ),flex: 1,),
@@ -403,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ConnectionState.waiting) {
                   return Center(
                       child: CircularProgressIndicator(
-                        color: primaryColorOfApp,
+                        //color: primaryColorOfApp,
                       ));
                 }
 
@@ -434,6 +368,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     //print('Images ${documents[index]['Images'].length}');
                     //todo Pass this time
+
+
+                    if(index==0){
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                            child: TextField(),
+                          ),
+                          SizedBox(height: 20,),
+                          ThriversListTile(documents[index])
+                        ],
+                      );
+                    }
+
 
                     return ThriversListTile(documents[index]);
                     /*return ListTile(
@@ -539,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(thriversDetails['Name'],style: Theme.of(context).textTheme.titleMedium?.copyWith(color: primaryColorOfApp),),
+                  Text(thriversDetails['Name'],style: Theme.of(context).textTheme.titleMedium),
                   SizedBox(height: 5,),
                   Row(
                     children: [
@@ -547,14 +496,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding:  EdgeInsets.only(right: 8.0),
                         child: Icon(Icons.email,color: Colors.grey,),
                       ),
-                      Text(thriversDetails["Country"],style: Theme.of(context).textTheme.bodySmall?.copyWith(color: primaryColorOfApp),),
+                      Text(thriversDetails["Country"],style: Theme.of(context).textTheme.bodySmall),
                     ],
                   )
                 ],
               ),
             ],
           ),
-
           Row(
             children: [
               /*Row(
@@ -650,7 +598,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return AlertDialog(
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: primaryColorOfApp),
+             // side: BorderSide(color: primaryColorOfApp),
               borderRadius: BorderRadius.circular(0),
             ),
             backgroundColor: Colors.black,
@@ -668,7 +616,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                    border: Border.all(
+                        //color:primaryColorOfApp
+                        width: 2.0),
                     borderRadius: BorderRadius.circular(100.0),
                   ),
                   child: Center(
@@ -677,7 +627,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: GoogleFonts.montserrat(
                           textStyle:
                           Theme.of(context).textTheme.titleMedium,
-                          color: primaryColorOfApp),
+                          ///color: primaryColorOfApp
+                      ),
                     ),
                   ),
                 ),
@@ -694,8 +645,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.all(10),
                   height: 60,
                   decoration: BoxDecoration(
-                    color: primaryColorOfApp,
-                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                   /// color: primaryColorOfApp,
+                    border: Border.all(
+                       // color:primaryColorOfApp,
+                        width: 2.0),
                     borderRadius: BorderRadius.circular(100.0),
                   ),
                   child: Center(
@@ -713,8 +666,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             title:Row(
               children: [
-                Text("List of Invited Participants for ",style: TextStyle(color: primaryColorOfApp),),
-                Text(eventName,style: TextStyle(color: primaryColorOfApp,fontWeight: FontWeight.bold),),
+                Text("List of Invited Participants for ",style: TextStyle(
+                    //color: primaryColorOfApp
+                ),),
+                Text(eventName,style: TextStyle(
+                    //color: primaryColorOfApp,
+          fontWeight: FontWeight.bold),),
               ],
             ),
             /*>question (answer free text)
@@ -763,7 +720,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
                                     controller: newJobTitleTextEditingController,
-                                    cursorColor: primaryColorOfApp,
+                                    //cursorColor: primaryColorOfApp,
                                     onChanged: (value) {
 
                                     },
@@ -819,7 +776,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Text("#21901201920",style: Theme.of(context).textTheme.labelLarge?.copyWith(color: primaryColorOfApp,fontWeight: FontWeight.w300),),
+                                                Text("#21901201920",style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w300),),
                                                 SizedBox(height: 10,),
                                                 CircleAvatar(
                                                   radius: 45,
@@ -832,17 +789,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
-                                                Text("Alia Bhatt",style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: primaryColorOfApp,fontWeight: FontWeight.w300),),
+                                                Text("Alia Bhatt",style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w300),),
                                                 Row(
                                                   children: [
-                                                    Icon(Icons.alternate_email,size: 20,color: primaryColorOfApp,),
+                                                    Icon(Icons.alternate_email,size: 20,),
                                                     SizedBox(width: 5,),
                                                     Text("aliabhatt.mukesh@gmail.com",style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),),
                                                   ],
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Icon(Icons.call,size: 20,color: primaryColorOfApp,),
+                                                    Icon(Icons.call,size: 20,),
                                                     SizedBox(width: 5,),
                                                     Text("+91-8779559898",style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),),
                                                   ],
@@ -853,7 +810,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                             SizedBox(width: 10,),
                                             IconButton(
-                                              icon: Icon(Icons.delete,color:primaryColorOfApp,),
+                                              icon: Icon(Icons.delete,),
                                               onPressed: () async {
                                              //   await ApiRepository().DeleteEvent(documentReference);
                                                 setState(() {
@@ -873,7 +830,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         // Displaying LoadingSpinner to indicate waiting state
                         return Center(
                           child: CircularProgressIndicator(
-                            color: primaryColorOfApp,
+                           // color: primaryColorOfApp,
                           ),
                         );
                       },
@@ -918,7 +875,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color:primaryColorOfApp , width: 2.0),
+                    border: Border.all(
+                        //color:primaryColorOfApp ,
+                        width: 2.0),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Center(
@@ -928,7 +887,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           textStyle:
                           Theme.of(context).textTheme.titleSmall,
                           fontWeight: FontWeight.bold,
-                          color: primaryColorOfApp),
+                          //color: primaryColorOfApp
+          ),
                     ),
                   ),
                 ),
@@ -953,8 +913,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 200,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: primaryColorOfApp,
-                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                    color:Colors.deepPurple,
+                    border: Border.all(
+                        color:Colors.deepPurple,
+                         width: 2.0),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Center(
@@ -995,7 +957,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: textControllers[0],
-                        cursorColor: primaryColorOfApp,
+                       // cursorColor: primaryColorOfApp,
                         onChanged: (value) {
 
                         },
@@ -1010,7 +972,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           hintText: "Thriver Name",
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                            child: Icon(Icons.question_mark_outlined,
+                             // color: primaryColorOfApp
+                              ),
                           ),
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -1036,7 +1000,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextField(
                         maxLines: null,
                         controller: textControllers[0],
-                        cursorColor: primaryColorOfApp,
+                        //cursorColor: primaryColorOfApp,
                         onChanged: (value) {
 
                         },
@@ -1051,7 +1015,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           hintText: "Thriver Description",
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                            child: Icon(Icons.question_mark_outlined,
+                              //color: primaryColorOfApp
+                              ),
                           ),
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -1093,7 +1059,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textStyle: Theme.of(context).textTheme.bodyLarge,
                                 fontWeight: FontWeight.w400,),
 
-                            cursorColor: primaryColorOfApp,
+                         //   cursorColor: primaryColorOfApp,
 
                             decoration: InputDecoration(
                               //errorText: firstNameErrorText,
@@ -1149,7 +1115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: TextField(
                        // maxLines: null,
                         controller: textControllers[0],
-                        cursorColor: primaryColorOfApp,
+                        //cursorColor: primaryColorOfApp,
                         onChanged: (value) {
 
                         },
@@ -1164,7 +1130,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           hintText: "Job Roles",
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Icon(Icons.question_mark_outlined,color: primaryColorOfApp,),
+                            child: Icon(Icons.question_mark_outlined,
+                             // color: primaryColorOfApp
+                              ),
                           ),
                           errorStyle: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
@@ -1212,192 +1180,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    Padding(
-                      child: Container(
-                        //width: size.width * 0.9,
-                        child: TypeAheadField(
-                          noItemsFoundBuilder: (BuildContext context) {
+                    TextButton(onPressed: (){
+                      showSelectChallengesWidget();
+                    }, child: Text("Select Solutions")),
 
-                            return ListTile(
-
-                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                              //subtitle: Text("Add Some Details Here"),
-                            );
-                          },
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: catergoryTextEditingController,
-                            //autofocus: true,
-
-                            style: GoogleFonts.montserrat(
-                              textStyle: Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            cursorColor: primaryColorOfApp,
-                            decoration: InputDecoration(
-                              //errorText: firstNameErrorText,
-                              contentPadding: EdgeInsets.all(25),
-                              hintText:  "Type & Search",
-                              labelText: "Challenges List",
-                              errorStyle: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.redAccent),
-                              enabledBorder:OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              //hintText: "e.g Abouzied",
-                              labelStyle: GoogleFonts.montserrat(
-                                textStyle: Theme.of(context).textTheme.bodyLarge,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          suggestionsCallback: (pattern) async {
-                            return await AuthorityServices.getSuggestions(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return TreeView(
-                              data: treeData,
-                              lazy: true,
-                              load: _load,
-                              showActions: true,
-                              showCheckBox: true,
-                              showFilter: true,
-                              append: (parent) {
-                                print(parent.extra);
-                                return TreeNodeData(
-                                  title: suggestion.toString(),
-                                  expaned: true,
-                                  checked: true,
-                                  children: [],
-                                );
-                              },
-                              onLoad: (node) {
-                                print('onLoad');
-                                print(node);
-                              },
-                              onAppend: (node, parent) {
-                                print('onAppend');
-                                print(node);
-                              },
-                              onCheck: (checked, node) {
-                                print('checked');
-                                print('onCheck');
-                                print(node);
-                              },
-                              onCollapse: (node) {
-                                print('onCollapse');
-                                print(node);
-                              },
-                              onExpand: (node) {
-                                print('onExpand');
-                                print(node);
-                              },
-                              onRemove: (node, parent) {
-                                print('onRemove');
-                                print(node);
-                              },
-                              onTap: (node) {
-                                print('onTap');
-                                print(node);
-                              },
-                            );
-
-
-                            /*return ListTile(
-                              title: Text(suggestion.toString()),
-                              //subtitle: Text("Add Some Details Here"),
-                            );*/
-                          },
-
-                          onSuggestionSelected: (suggestion) {
-                            print("Im selected");
-                            print(suggestion);
-                            catergoryTextEditingController.text = suggestion;
-                            // textEditingController.clear();
-                            //mySelectedUsers.add(suggestion.toString());
-                            //innerState((){});
-                          },
-                        ),
+                    Wrap(
+                      spacing: 5,
+                      children: List.generate(
+                        10,
+                            (index) {
+                          return Chip(
+                            label: Text(_animals[index].name),
+                            onDeleted: () {
+                              setState(() {
+                                _animals.removeAt(index);
+                              });
+                            },
+                          );
+                        },
                       ),
-                      padding: const EdgeInsets.all(8.0),
-                    ),
-                    //Challenges List
-                    Padding(
-                      child: Container(
-                        //width: size.width * 0.9,
-                        child: TypeAheadField(
-                          noItemsFoundBuilder: (BuildContext context) {
-
-                            return ListTile(
-
-                              title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                              //subtitle: Text("Add Some Details Here"),
-                            );
-                          },
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: catergoryTextEditingController,
-                            //autofocus: true,
-
-                            style: GoogleFonts.montserrat(
-                                textStyle: Theme.of(context).textTheme.bodyLarge,
-                                fontWeight: FontWeight.w400,
-                               ),
-
-                            cursorColor: primaryColorOfApp,
-
-                            decoration: InputDecoration(
-                              //errorText: firstNameErrorText,
-
-                              contentPadding: EdgeInsets.all(25),
-                              hintText:  "Type & Search",
-                              labelText: "Solution List",
-                              errorStyle: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.redAccent),
-                              enabledBorder:OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(100)),
-                              //hintText: "e.g Abouzied",
-                              labelStyle: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          suggestionsCallback: (pattern) async {
-                            return await AuthorityServices.getSuggestions(pattern);
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return ListTile(
-                              title: Text(suggestion.toString()),
-                              //subtitle: Text("Add Some Details Here"),
-                            );
-                          },
-                          onSuggestionSelected: (suggestion) {
-                            print("Im selected");
-                            print(suggestion);
-                            catergoryTextEditingController.text = suggestion;
-                            // textEditingController.clear();
-                            //mySelectedUsers.add(suggestion.toString());
-                            //innerState((){});
-                          },
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(8.0),
                     ),
                   ]
               ),
@@ -1423,7 +1224,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color:primaryColorOfApp , width: 2.0),
+                    border: Border.all(
+                        //color:primaryColorOfApp
+           width: 2.0),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Center(
@@ -1433,7 +1236,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           textStyle:
                           Theme.of(context).textTheme.titleSmall,
                           fontWeight: FontWeight.bold,
-                          color: primaryColorOfApp),
+                          //color: primaryColorOfApp
+                      ),
                     ),
                   ),
                 ),
@@ -1447,8 +1251,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 200,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: primaryColorOfApp,
-                    border: Border.all(color:primaryColorOfApp, width: 2.0),
+                    color:Colors.deepPurple,
+                    border: Border.all(
+                        color:Colors.deepPurple,
+                        width: 2.0),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: Center(
@@ -1484,7 +1290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 data: treeData,
                 lazy: true,
                 load: _load,
-                showActions: true,
+              //  showActions: true,
                 showCheckBox: true,
                 showFilter: true,
                 append: (parent) {
@@ -1529,6 +1335,23 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         }
+    );
+  }
+
+  HeaderWidget() {
+    return Container(
+      padding: EdgeInsets.all(16.0),
+      color: Colors.deepPurple, // Change the color to your desired background color
+      child: Center(
+        child: Text(
+          'Welcome to Thriver Dashboard',
+          style: TextStyle(
+            color: Colors.white, // Change the text color to your desired color
+            fontSize: 24.0, // Adjust the font size as needed
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }
