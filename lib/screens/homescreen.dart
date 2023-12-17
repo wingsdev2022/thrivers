@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<String> mySelectedUsers = [];
 
-  bool showTreeView = true;
+  bool showTreeView = false;
 
   static List<Animal> _animals = [
     Animal(id: 1, name: "Lion"),
@@ -158,178 +158,154 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Wrap(
           children: [
             HeaderWidget(),
-            Flexible(child: Container(
+            Container(
+                padding: EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: Container(
-                          width: size.width * 0.9,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
 
-                              return ListTile(
-
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: catergoryTextEditingController,
-                              //autofocus: true,
-
-                              style: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  ///color: Colors.white
-                              ),
+                    Container(
+                      width: size.width*0.2,
+                      child: TypeAheadField(
+                        noItemsFoundBuilder: (BuildContext context) {
+                          return ListTile(
+                            title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                            //subtitle: Text("Add Some Details Here"),
+                          );
+                        },
+                        textFieldConfiguration: TextFieldConfiguration(
+                          controller: catergoryTextEditingController,
+                          //autofocus: true,
+                          style: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              ///color: Colors.white
+                          ),
 
 
 
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
+                          decoration: InputDecoration(
+                            //errorText: firstNameErrorText,
 
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Type & Search",
-                                labelText: "Select Category",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                             // textEditingController.clear();
-                              catergoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
+                            contentPadding: EdgeInsets.all(0),
+                            hintText:  "Type & Search",
+                            labelText: "Select Category",
+                            errorStyle: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.redAccent),
+                            //hintText: "e.g Abouzied",
+                            labelStyle: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
                           ),
                         ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
+                        suggestionsCallback: (pattern) async {
+                          return await AuthorityServices.getSuggestions(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                            //subtitle: Text("Add Some Details Here"),
+                          );
+                        },
+
+                        onSuggestionSelected: (suggestion) {
+                          print("Im selected");
+                          print(suggestion);
+                         // textEditingController.clear();
+                          catergoryTextEditingController.text = suggestion;
+                          //innerState((){});
+                        },
                       ),
                     ),
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: Container(
-                          width: size.width * 0.9,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
 
-                              return ListTile(
+                    Container(
+                      width: size.width*0.2,
+                      child: TypeAheadField(
+                        noItemsFoundBuilder: (BuildContext context) {
+                          return ListTile(
+                            title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
+                            //subtitle: Text("Add Some Details Here"),
+                          );
+                        },
+                        textFieldConfiguration: TextFieldConfiguration(
+                          controller: subcategoryTextEditingController,
+                          //autofocus: true,
+                          style: GoogleFonts.montserrat(
+                              textStyle: Theme.of(context).textTheme.bodyLarge,
+                              fontWeight: FontWeight.w400,
+                              //color: Colors.white
+                          ),
+                          decoration: InputDecoration(
+                            //errorText: firstNameErrorText,
+                            contentPadding: EdgeInsets.all(0),
+                            hintText:  "Select Subcategory",
+                            labelText: "Select Subcategory",
+                            errorStyle: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.redAccent),
 
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: subcategoryTextEditingController,
-                              //autofocus: true,
-
-                              style: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  //color: Colors.white
-                              ),
-
-
-
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
-
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Select Subcategory",
-                                labelText: "Select Subcategory",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                              subcategoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
+                            //hintText: "e.g Abouzied",
+                            labelStyle: GoogleFonts.montserrat(
+                                textStyle: Theme.of(context).textTheme.bodyLarge,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black),
                           ),
                         ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
+                        suggestionsCallback: (pattern) async {
+                          return await AuthorityServices.getSuggestions(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                            //subtitle: Text("Add Some Details Here"),
+                          );
+                        },
+
+                        onSuggestionSelected: (suggestion) {
+                          print("Im selected");
+                          print(suggestion);
+                          subcategoryTextEditingController.text = suggestion;
+                          //innerState((){});
+                        },
                       ),
                     ),
-                    Expanded(child: Container(),),
-                    Expanded(flex: 8,
-                      child: Padding(
-                        child: MultiSelectDialogField(
-                          buttonText: Text(
-                            "Select Colums to Display",
-                            style: TextStyle(
-                              color: Colors.blue[800],
-                              fontSize: 16,
-                            ),
-                          ),
-                          title: Text("Columns to Display"),
-                          items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
-                          listType: MultiSelectListType.CHIP,
-                          onConfirm: (values) {
-                            _selectedAnimals2 = values;
-                          },
+
+                    MultiSelectDialogField(
+                      buttonText: Text(
+                        "Select Colums to Display",
+                        style: TextStyle(
+                          color: Colors.blue[800],
+                          fontSize: 16,
                         ),
-                        padding: EdgeInsets.only(top: 25,bottom: 20,right: 20),
                       ),
+                      title: Text("Columns to Display"),
+                      items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
+                      listType: MultiSelectListType.CHIP,
+                      onConfirm: (values) {
+                        _selectedAnimals2 = values;
+                      },
                     ),
-                    Expanded(child: Center(child: InkWell(
+                    Center(child: InkWell(
                         onTap: (){
                           showTreeView = !showTreeView;
                           setState(() {});
                         },
-                        child: (!showTreeView)?FaIcon(FontAwesomeIcons.folderTree):FaIcon(FontAwesomeIcons.list))),flex: 1,),
-                    Expanded(child: Container(),),
-                    Expanded(child: Center(child: InkWell(
+                        child: (!showTreeView)?FaIcon(FontAwesomeIcons.folderTree):FaIcon(FontAwesomeIcons.list))),
+
+                    Center(child: InkWell(
                         onTap: (){
                           showAddThriverDialogBox(setState);
                         },
-                        child: FaIcon(FontAwesomeIcons.add))),flex: 1,),
-                    Expanded(child: Container(),)
+                        child: FaIcon(FontAwesomeIcons.add))),
+
                   ],
                 )
-            ),flex: 1,),
-            Flexible(child: Container(child:
+            ),
+            Container(child:
             StreamBuilder(
               stream: thriversCollection.snapshots(),
               builder: (ctx,AsyncSnapshot<QuerySnapshot> streamSnapshot) {
@@ -463,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-            ),),flex: 8,),
+            ),),
           ],
         ),
       ),
