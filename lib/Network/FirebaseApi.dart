@@ -23,8 +23,8 @@ class ApiRepository{
  // static const BREVO_API_KEY = "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";
   //static const BREVO_API_KEY = "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";
   //static const BREVO_API_KEY = "xsmtpsib-992d10ec15416056613c3973c717155b0a4f8a98c636790ee407dcb8c0b29f92-TkhGWKZxO6Bna2Sv";
- // static const BREVO_API_KEY = "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";
-  static const BREVO_API_KEY = "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";
+  static const BREVO_API_KEY = "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";
+  // static const BREVO_API_KEY = "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";
   static const BREVO_BASE_URL = "https://api.brevo.com/v3";
 
 
@@ -227,7 +227,7 @@ class ApiRepository{
 
     String token = EncryptData.createJWT({"email":email});
     
-    String loginlink = "https://retailhub-ea728.web.app/loginToken$token";
+    String loginlink = "https://thrivers-8aa27.web.app/authenticate?loginToken=$token";
 
     var request = http.Request('POST', Uri.parse('$BREVO_BASE_URL/smtp/email'));
     request.body = json.encode({

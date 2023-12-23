@@ -1,11 +1,22 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:thrivers/screens/homescreen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thrivers/screens/addthriverscreen.dart';
+import 'package:thrivers/screens/authenticateloginscreen.dart';
+import 'package:thrivers/screens/homescreentab.dart';
+import 'package:thrivers/screens/landingscreen.dart';
+import 'package:thrivers/screens/loginscreen.dart';
 
 import 'Network/my_http_overrides.dart';
 import 'firebase_options.dart';
 
 import 'dart:io';
+
+SharedPreferences? sharedPreferences;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,14 +38,49 @@ Future<void> main() async {
 
 }
 
+/// The route configuration.
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return  LandingScreen();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'authenticate',
+   // https://retailhub-ea728.web.app/loginTokeneyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9ashrafeyJlbWFpbCI6ImFzaHJhZmtzYWxpbTFAZ21haWwuY29tIiwiaWF0IjoxNzAzMzY0NDQ2LCJpc3MiOiJodHRwczovL2dpdGh1Yi5jb20vam9uYXNyb3Vzc2VsL2RhcnRfanNvbndlYnRva2VuIn0ashrafle57WUoi1zzp92I9O3flYoCAZZYX98SuwfzLcZP54Ng
+          builder: (BuildContext context, GoRouterState state) {
+            final loginToken = state.pathParameters['loginToken']!;
+            print("From RouteBase : "+loginToken);
+            return AuthenticateLogin(
+              loginToken: loginToken,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'admin',
+          builder: (BuildContext context, GoRouterState state) {
+            return  CMSLoginScreen(isPathlab: true);
+          },
+        ),
+      ],
+    ),
+  ],
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      routerConfig: _router,
+      scrollBehavior: MaterialScrollBehavior().copyWith(
+        dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch, PointerDeviceKind.stylus, PointerDeviceKind.unknown},
+      ),
+      title: 'Thrivers',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
@@ -55,7 +101,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: LandingScreen(),
     );
   }
 }
