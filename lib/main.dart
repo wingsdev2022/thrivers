@@ -61,7 +61,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'admin',
           builder: (BuildContext context, GoRouterState state) {
-            return  CMSLoginScreen(isPathlab: true);
+            return  LoginScreen();
           },
         ),
       ],
@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LandingScreen(),
+      //home: LandingScreen(),
     );
   }
 }

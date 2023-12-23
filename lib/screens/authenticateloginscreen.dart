@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thrivers/screens/homescreentab.dart';
 
 
 import '../core/EncryptDecrypt.dart';
@@ -69,10 +70,7 @@ class _AuthenticateLoginState extends State<AuthenticateLogin> {
                     sharedPreferences?.setBool("isLoggedIn",true);
                     sharedPreferences?.setString("userEmail",data);
 
-
-
-
-                    return LandingScreen();
+                    return HomeScreenTabs();
                   }), (Route<dynamic> route) => false));
               return Container(
                 color: Colors.black,
@@ -162,8 +160,8 @@ class _AuthenticateLoginState extends State<AuthenticateLogin> {
   }
 
   Future<String> authenticate() async {
-    print(widget.loginToken.split("loginToken")[1]);
-    Map valueMap = EncryptData.verifyToken(widget.loginToken.split("loginToken")[1]);
+    print(widget.loginToken);
+    Map valueMap = EncryptData.verifyToken(widget.loginToken);
     String loginResponse = valueMap["email"];
     print("loginResponse");
     print(loginResponse);
