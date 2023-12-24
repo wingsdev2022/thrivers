@@ -5,6 +5,7 @@ import 'package:flutter_tree/flutter_tree.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
@@ -117,6 +118,7 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
   ];
 
   List<String> challanges = [];
+  List<String> solutions = [];
   List<DocumentReference> challangeDocRefs = [];
 
   Future<List<TreeNodeData>> _load(TreeNodeData parent) async {
@@ -955,84 +957,131 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                     //SHow a dialog on checks with TREE
                     //On Selection Show them on with CHips
 
-
                     Padding(
-                      child: Container(
-                        child: TypeAheadField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: challangesTextEditingController,
-                            style: GoogleFonts.montserrat(
-                              textStyle: Theme.of(context).textTheme.bodyLarge,
-                              fontWeight: FontWeight.w400,),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(25),
-                              hintText:  "Type & Search",
-                              labelText: "Select Challenges",
-                              errorStyle: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.redAccent),
-                              enabledBorder:OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(15)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(15)),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(15)),
-                              labelStyle: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black),
-                            ),
-                          ),
-                          suggestionsCallback: (pattern) async {
-                            List<DocumentSnapshot> itemList = [];
-                            await FirebaseFirestore.instance.collection('Challenges')
-                                .where('ChallengeName', isGreaterThanOrEqualTo: pattern)
-                                .where('ChallengeName', isLessThanOrEqualTo: pattern + '\uf8ff')
-                                .get().then((value) {
-                              itemList.addAll(value.docs);
-                            });
-                            return itemList;
-                          },
-                          itemBuilder: (context, suggestion) {
-                            return CheckboxListTile(
-                              value: challanges.contains(suggestion.get("ChallengeName")),
-                              title: Text(suggestion.get("ChallengeName")),
-                              onChanged: (value){
-                                if(challanges.contains(suggestion.get("ChallengeName"))){
-                                  challanges.remove(suggestion.get("ChallengeName"));
-                                  challangeDocRefs.remove(suggestion.reference);
-                                }else{
-                                  challanges.add(suggestion.get("ChallengeName"));
-                                  challangeDocRefs.add(suggestion.reference);
-                                }
-                                print("challanges");
-                                print(challanges);
-                              },
-                              //subtitle: Text("Add Some Details Here"),
-                            );
-                          },
-
-                          onSuggestionSelected: (suggestion) {
-                            print("Im selected");
-                            print(suggestion);
-                          //  challanges
-                            // textEditingController.clear();
-                            //mySelectedUsers.add(suggestion.toString());
-                            //innerState((){});
+                      padding: const EdgeInsets.all(8.0),
+                      child: MultiSelectDropDown.network(
+                        padding: EdgeInsets.all(20),
+                        hint: "Select Challenges",
+                        borderColor: Colors.black,
+                        borderRadius: 15,
+                        hintStyle:Theme.of(context).textTheme.bodyLarge,
+                        backgroundColor: Colors.transparent,
+                        onOptionSelected: (options) {
+                          print(options.first.value);
+                          challanges.clear();
+                          options.forEach((element) {
+                            challanges.add(element.label);
+                          //  challangeDocRefs.add(element.value);
+                          });
+                      
+                          challanges.addAll(options as Iterable<String>);
+                        },
+                        networkConfig: NetworkConfig(
+                          url: 'https://firestore.googleapis.com/v1/projects/thrivers-8aa27/databases/(default)/documents/Challenges',
+                          method: RequestMethod.get,
+                          headers: {
+                            'Content-Type': 'application/json',
                           },
                         ),
+                        chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                        responseParser: (response) {
+                          print("Yeh Response Aaya hjai");
+                          print(response);
+                      
+                          // Check if the response is a Map and contains the 'documents' key
+                          if (response is Map<String, dynamic> && response.containsKey('documents')) {
+                            final List<dynamic> documents = response['documents'];
+                            print(documents);
+                      
+                            final list = documents.map((e) {
+                              final item = e['fields'] as Map<String, dynamic>;
+                              return ValueItem(
+                                label: item['ChallengeName']['stringValue'],
+                                value: item['ChallengeName']['stringValue'],
+                              );
+                            }).toList();
+                      
+                            return Future.value(list);
+                          } else {
+                            // Handle error or unexpected response format
+                            print("Error: Unexpected response format");
+                            return Future.error("Unexpected response format");
+                          }
+                        },
+                        responseErrorBuilder: ((context, body) {
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text('Error fetching the data'),
+                          );
+                        }),
                       ),
-                      padding: const EdgeInsets.all(8.0),
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: MultiSelectDropDown.network(
+                        padding: EdgeInsets.all(20),
+                        borderColor: Colors.black,
+                        hintStyle:Theme.of(context).textTheme.bodyLarge,
+                        borderRadius: 15,
+                        hint: "Select Solutions",
+                        backgroundColor: Colors.transparent,
+                        onOptionSelected: (options) {
+                          print(options.first.value);
+                          solutions.clear();
+                          options.forEach((element) {
+                            solutions.add(element.label);
+                            //  challangeDocRefs.add(element.value);
+                          });
+
+                          solutions.addAll(options as Iterable<String>);
+                        },
+                        networkConfig: NetworkConfig(
+                          url: 'https://firestore.googleapis.com/v1/projects/thrivers-8aa27/databases/(default)/documents/Solutions',
+                          method: RequestMethod.get,
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                        ),
+                        chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                        responseParser: (response) {
+                          print("Yeh Response Aaya hjai");
+                          print(response);
+
+                          // Check if the response is a Map and contains the 'documents' key
+                          if (response is Map<String, dynamic> && response.containsKey('documents')) {
+                            final List<dynamic> documents = response['documents'];
+                            print(documents);
+
+                            final list = documents.map((e) {
+                              final item = e['fields'] as Map<String, dynamic>;
+                              return ValueItem(
+                                label: item['Name']['stringValue'],
+                                value: item['Name']['stringValue'],
+                              );
+                            }).toList();
+
+                            return Future.value(list);
+                          } else {
+                            // Handle error or unexpected response format
+                            print("Error: Unexpected response format");
+                            return Future.error("Unexpected response format");
+                          }
+                        },
+                        responseErrorBuilder: ((context, body) {
+                          return const Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Text('Error fetching the data'),
+                          );
+                        }),
+                      ),
+                    ),
+
+
+                    /*  Padding(
                       child: Container(
                         child: TypeAheadField(
                           textFieldConfiguration: TextFieldConfiguration(
-                            controller: challangesTextEditingController,
+                            controller: solutionsTextEditingController,
                             style: GoogleFonts.montserrat(
                               textStyle: Theme.of(context).textTheme.bodyLarge,
                               fontWeight: FontWeight.w400,),
@@ -1071,18 +1120,18 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                           },
                           itemBuilder: (context, suggestion) {
                             return CheckboxListTile(
-                              value: challanges.contains(suggestion.get("Name")),
+                              value: solutions.contains(suggestion.get("Name")),
                               title: Text(suggestion.get("Name")),
                               onChanged: (value){
-                                if(challanges.contains(suggestion.get("Name"))){
-                                  challanges.remove(suggestion.get("Name"));
-                                  challangeDocRefs.remove(suggestion.reference);
+                                if(solutions.contains(suggestion.get("Name"))){
+                                  solutions.remove(suggestion.get("Name"));
+                                  solutionsDocRefs.remove(suggestion.reference);
                                 }else{
-                                  challanges.add(suggestion.get("Name"));
-                                  challangeDocRefs.add(suggestion.reference);
+                                  solutions.add(suggestion.get("Name"));
+                                  solutionsDocRefs.add(suggestion.reference);
                                 }
-                                print("challanges");
-                                print(challanges);
+                                print("solutions");
+                                print(solutions);
                               },
                               //subtitle: Text("Add Some Details Here"),
                             );
@@ -1091,6 +1140,9 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                           onSuggestionSelected: (suggestion) {
                             print("Im selected");
                             print(suggestion);
+                            solutions.forEach((element) {
+                              solutionsTextEditingController.text +=element + ",";
+                            });
                             //  challanges
                             // textEditingController.clear();
                             //mySelectedUsers.add(suggestion.toString());
@@ -1099,7 +1151,12 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                         ),
                       ),
                       padding: const EdgeInsets.all(8.0),
-                    ),
+                    ),*/
+
+
+
+
+
                    /* Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: TextButton(onPressed: (){
@@ -1295,7 +1352,7 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
       color: Colors.deepPurple, // Change the color to your desired background color
       child: Center(
         child: Text(
-          'Welcome to Thriver Dashboard',
+          'Add a Thriver',
           style: TextStyle(
             color: Colors.white, // Change the text color to your desired color
             fontSize: 24.0, // Adjust the font size as needed

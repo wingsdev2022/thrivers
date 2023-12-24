@@ -36,7 +36,7 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppHelper().CustomAppBar(context),
+     // appBar:AppHelper().CustomAppBar(context),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -70,8 +70,8 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                     'assets/logo.png',
                   ),
                 ),*/
-                SizedBox(height: 20,),
-                Text("Admin Panel" , style: GoogleFonts.montserrat(
+
+                Text("Welcome , Admin" , style: GoogleFonts.montserrat(
                     textStyle: Theme.of(context).textTheme.headlineMedium,
 
                     color: primaryColorOfApp)),
@@ -84,7 +84,7 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
             footer: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'Wings Co Pvt Ltd',
+                'AKCess Pvt Ltd',
                 style: TextStyle(fontSize: 15),
               ),
             ),

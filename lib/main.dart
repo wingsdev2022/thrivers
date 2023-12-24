@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thrivers/screens/addthriverscreen.dart';
 import 'package:thrivers/screens/authenticateloginscreen.dart';
 import 'package:thrivers/screens/homescreentab.dart';
 import 'package:thrivers/screens/landingscreen.dart';
 import 'package:thrivers/screens/loginscreen.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'Network/my_http_overrides.dart';
 import 'firebase_options.dart';
@@ -21,18 +23,18 @@ SharedPreferences? sharedPreferences;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  /*setPathUrlStrategy();
-  await Hive.initFlutter();
-  ui.platformViewRegistry.registerViewFactory(
-      'newsletter',
-          (int viewId) => IFrameElement()
-        ..src = 'https://ddfc1098.sibforms.com/serve/MUIFABpvhkH3XvL1QIbioH-zuqIy4MzOCoOGIUvjeP5En16VdLe3Xs8sOwqGL-WBmR3yJZ9AnLyTrAN63tBlcgOPuxicwsUw9kNYT37FSmbFUgLBbN6I0ZyOsZAB2pLYJeh7kZ1Qi5tuunqlK43bm4mAfZhll3jEmiwCyq11g3JVjKmviG4OPhOHipT3_DiFHfNxjOON8okN-Sd5'
-        ..style.border = 'none'
-
-  );*/
-  FirebaseApp app = await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  setPathUrlStrategy();
+  // await Hive.initFlutter();
+  // ui.platformViewRegistry.registerViewFactory(
+  //     'newsletter',
+  //         (int viewId) => IFrameElement()
+  //       ..src = 'https://ddfc1098.sibforms.com/serve/MUIFABpvhkH3XvL1QIbioH-zuqIy4MzOCoOGIUvjeP5En16VdLe3Xs8sOwqGL-WBmR3yJZ9AnLyTrAN63tBlcgOPuxicwsUw9kNYT37FSmbFUgLBbN6I0ZyOsZAB2pLYJeh7kZ1Qi5tuunqlK43bm4mAfZhll3jEmiwCyq11g3JVjKmviG4OPhOHipT3_DiFHfNxjOON8okN-Sd5'
+  //       ..style.border = 'none'
+  //
+  // );*/
+   FirebaseApp app = await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+   );
   runApp(const MyApp());
 
 
@@ -44,14 +46,17 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return  LandingScreen();
+        return  HomeScreenTabs();
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'authenticate',
    // https://retailhub-ea728.web.app/loginTokeneyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9ashrafeyJlbWFpbCI6ImFzaHJhZmtzYWxpbTFAZ21haWwuY29tIiwiaWF0IjoxNzAzMzY0NDQ2LCJpc3MiOiJodHRwczovL2dpdGh1Yi5jb20vam9uYXNyb3Vzc2VsL2RhcnRfanNvbndlYnRva2VuIn0ashrafle57WUoi1zzp92I9O3flYoCAZZYX98SuwfzLcZP54Ng
           builder: (BuildContext context, GoRouterState state) {
-            final loginToken = state.pathParameters['loginToken']!;
+            print(state.extra);
+            print(state.pathParameters);
+            print(state.uri.queryParameters['loginToken']);
+            final loginToken = state.uri.queryParameters['loginToken']!;
             print("From RouteBase : "+loginToken);
             return AuthenticateLogin(
               loginToken: loginToken,
@@ -98,6 +103,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thrivers/screens/homescreentab.dart';
 
@@ -64,14 +65,21 @@ class _AuthenticateLoginState extends State<AuthenticateLogin> {
             print("The Email ID");
             print(data);
             if(RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(data)){
-              WidgetsBinding.instance.addPostFrameCallback((_) =>
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                sharedPreferences?.setBool("isLoggedIn",true);
+                sharedPreferences?.setString("userEmail",data);
 
-                    sharedPreferences?.setBool("isLoggedIn",true);
-                    sharedPreferences?.setString("userEmail",data);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return HomeScreenTabs();
+                    },
+                  ),
+                );
 
-                    return HomeScreenTabs();
-                  }), (Route<dynamic> route) => false));
+              }
+
+              );
               return Container(
                 color: Colors.black,
                 child: Center(
