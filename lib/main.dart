@@ -46,7 +46,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return  HomeScreenTabs();
+        return  LandingScreen();
       },
       routes: <RouteBase>[
         GoRoute(

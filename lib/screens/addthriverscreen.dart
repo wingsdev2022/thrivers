@@ -61,35 +61,7 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
 
   bool showTreeView = false;
 
-  static List<Animal> _animals = [
-    Animal(id: 1, name: "Lion"),
-    Animal(id: 2, name: "Flamingo"),
-    Animal(id: 3, name: "Hippo"),
-    Animal(id: 4, name: "Horse"),
-    Animal(id: 5, name: "Tiger"),
-    Animal(id: 6, name: "Penguin"),
-    Animal(id: 7, name: "Spider"),
-    Animal(id: 8, name: "Snake"),
-    Animal(id: 9, name: "Bear"),
-    Animal(id: 10, name: "Beaver"),
-    Animal(id: 11, name: "Cat"),
-    Animal(id: 12, name: "Fish"),
-    Animal(id: 13, name: "Rabbit"),
-    Animal(id: 14, name: "Mouse"),
-    Animal(id: 15, name: "Dog"),
-    Animal(id: 16, name: "Zebra"),
-    Animal(id: 17, name: "Cow"),
-    Animal(id: 18, name: "Frog"),
-    Animal(id: 19, name: "Blue Jay"),
-    Animal(id: 20, name: "Moose"),
-    Animal(id: 21, name: "Gecko"),
-    Animal(id: 22, name: "Kangaroo"),
-    Animal(id: 23, name: "Shark"),
-    Animal(id: 24, name: "Crocodile"),
-    Animal(id: 25, name: "Owl"),
-    Animal(id: 26, name: "Dragonfly"),
-    Animal(id: 27, name: "Dolphin"),
-  ];
+  static List<Animal> _animals = [];
   final _items = _animals
       .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
       .toList();
@@ -121,6 +93,10 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
   List<String> solutions = [];
   List<DocumentReference> challangeDocRefs = [];
 
+
+  List<String> fieldNames = [];
+  List<String> selectedFieldNames = [];
+
   Future<List<TreeNodeData>> _load(TreeNodeData parent) async {
     await Future.delayed(const Duration(seconds: 1));
     final data = [
@@ -147,7 +123,26 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
   @override
   void initState() {
     super.initState();
+    _fetchDataFromFirebase();
     loadData();
+  }
+
+  void _fetchDataFromFirebase() async {
+    print("Fields Fetching");
+    // Assuming you have a Firestore collection named 'challenge'
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Thrivers').limit(1).get();
+
+    print("Fields Fetching");
+    Map<String, dynamic> data = querySnapshot.docs.first.data() as Map<String, dynamic>;
+
+    List<String> fieldNamesList = data.keys.toList();
+    print("Field Names: $fieldNamesList");
+
+    fieldNamesList.forEach((element) {
+      fieldNames.add(element);
+    });
+    setState(() {});
+    print("Fields Fetched");
   }
 
   loadData() async {
@@ -306,20 +301,25 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                     Padding(
                       child: MultiSelectDialogField(
                         buttonText: Text(
-                          "Select Colums to Display",
+                          "Select Fields to Hide",
                           style: TextStyle(
                             color: Colors.blue[800],
                             fontSize: 16,
                           ),
                         ),
-                        title: Text("Columns to Display"),
-                        items: _animals.map((e) => MultiSelectItem(e, e.name)).toList(),
+                        title: Text("Select Fields to Hide"),
+                        items: fieldNames
+                            .map((e) => MultiSelectItem(e, e))
+                            .toList(),
                         listType: MultiSelectListType.CHIP,
                         onConfirm: (values) {
-                          _selectedAnimals2 = values;
+                          selectedFieldNames = values;
+                          setState(() {
+
+                          });
                         },
                       ),
-                      padding: EdgeInsets.only(top: 25,bottom: 20,right: 20),
+                      padding: EdgeInsets.only(top: 25, bottom: 20, right: 20),
                     ),
                     Center(child: InkWell(
                         onTap: (){
@@ -488,22 +488,22 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(thriversDetails['Name'],style: Theme.of(context).textTheme.titleMedium),
-                  Text(thriversDetails['Description'],style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.grey)),
+                  !selectedFieldNames.contains("Name")?Text(thriversDetails['Name'],style: Theme.of(context).textTheme.titleMedium):Container(),
+                  !selectedFieldNames.contains("Description")?Text(thriversDetails['Description'],style: Theme.of(context).textTheme.subtitle1?.copyWith(color: Colors.grey)):Container(),
                   SizedBox(height: 5,),
                   Row(
                     children: [
-                      Icon(Icons.circle,size: 10,),
-                      SizedBox(width: 10,),
-                      Text(thriversDetails["Country"],style: Theme.of(context).textTheme.bodySmall),
-                      SizedBox(width: 10,),
-                      Icon(Icons.circle,size: 10,),
-                      SizedBox(width: 10,),
-                      Text(thriversDetails["JobRoles"],style: Theme.of(context).textTheme.bodySmall),
-                      SizedBox(width: 10,),
-                      Icon(Icons.circle,size: 10,),
-                      SizedBox(width: 10,),
-                      Text(thriversDetails["Industry"],style: Theme.of(context).textTheme.bodySmall),
+                      !selectedFieldNames.contains("Country")?Icon(Icons.circle,size: 10,):Container(),
+                      !selectedFieldNames.contains("Country")?SizedBox(width: 10,):Container(),
+                      !selectedFieldNames.contains("Country")?Text(thriversDetails["Country"],style: Theme.of(context).textTheme.bodySmall):Container(),
+                      !selectedFieldNames.contains("Country")?SizedBox(width: 10,):Container(),
+                      !selectedFieldNames.contains("JobRoles")?Icon(Icons.circle,size: 10,):Container(),
+                      !selectedFieldNames.contains("JobRoles")?SizedBox(width: 10,):Container(),
+                      !selectedFieldNames.contains("JobRoles")?Text(thriversDetails["JobRoles"],style: Theme.of(context).textTheme.bodySmall):Container(),
+                      !selectedFieldNames.contains("JobRoles")?SizedBox(width: 10,):Container(),
+                      !selectedFieldNames.contains("Industry")?Icon(Icons.circle,size: 10,):Container(),
+                      !selectedFieldNames.contains("Industry")?SizedBox(width: 10,):Container(),
+                      !selectedFieldNames.contains("Industry")?Text(thriversDetails["Industry"],style: Theme.of(context).textTheme.bodySmall):Container(),
                     ],
                   )
                 ],
