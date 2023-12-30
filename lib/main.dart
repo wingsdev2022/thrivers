@@ -37,7 +37,6 @@ Future<void> main() async {
    );
   runApp(const MyApp());
 
-
 }
 
 /// The route configuration.
@@ -46,7 +45,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return  LandingScreen();
+        return  HomeScreenTabs();
       },
       routes: <RouteBase>[
         GoRoute(

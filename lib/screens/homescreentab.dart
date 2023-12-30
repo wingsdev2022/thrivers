@@ -43,19 +43,22 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
           SideMenu(
             controller: sideMenu,
             style: SideMenuStyle(
-              itemBorderRadius: BorderRadius.circular(0),
+              itemBorderRadius: BorderRadius.circular(100),
+                itemOuterPadding: EdgeInsets.symmetric(horizontal: 30),
+
               // showTooltip: false,
                 displayMode: SideMenuDisplayMode.auto,
-                hoverColor: primaryColorOfApp.withAlpha(50),
-                selectedColor: primaryColorOfApp,
-                selectedTitleTextStyle: const TextStyle(color: Colors.black),
+                hoverColor: Colors.grey,
+                iconSize: 20,
+                selectedColor: Colors.blue.withOpacity(0.5),
+                selectedTitleTextStyle: const TextStyle(color: Colors.black,fontSize: 14),
                 selectedIconColor: Colors.black,
-                backgroundColor: Colors.black,
-                unselectedIconColor: primaryColorOfApp,
-                unselectedTitleTextStyle: TextStyle(color: primaryColorOfApp)
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.all(Radius.circular(10)),
-              // ),
+                backgroundColor: Colors.grey.withOpacity(0.2),
+                unselectedIconColor: Colors.black,
+                unselectedTitleTextStyle: TextStyle(color: Colors.black,fontSize: 14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                ),
               // backgroundColor: Colors.blueGrey[700]
             ),
             title: Column(
@@ -75,10 +78,12 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                     textStyle: Theme.of(context).textTheme.headlineMedium,
 
                     color: primaryColorOfApp)),
+                SizedBox(height: 20,),
                 Divider(
                   indent: 8.0,
                   endIndent: 8.0,
                 ),
+                SizedBox(height: 20,)
               ],
             ),
             footer: const Padding(
@@ -102,7 +107,7 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
               ),
               SideMenuItem(
                 priority: 1,
-                title: 'Add A Thriver',
+                title: 'Thriver',
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -131,10 +136,10 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
 
               SideMenuItem(
                 priority: 2,
-                title: 'Add a Challenge',
+                title: 'Challenge',
                 //badgeColor: Colors.amber,
                 // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
-                tooltipContent: "Add A Challenge",
+                tooltipContent: "Challenge",
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -143,10 +148,10 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
 
               SideMenuItem(
                 priority: 3,
-                title: 'Add A Solution',
+                title: 'Solution',
                 //badgeColor: Colors.amber,
                 // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
-                tooltipContent: "Add A Solution",
+                tooltipContent: "Solution",
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
@@ -154,14 +159,44 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
               ),
               SideMenuItem(
                 priority: 4,
-                title: 'User Listing',
+                title: 'Users',
                 //badgeColor: Colors.amber,
                 // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
-                tooltipContent: "User Listing",
+                tooltipContent: "Users",
                 onTap: (page, _) {
                   sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.people_alt_outlined),
+              ),
+              SideMenuItem(
+                priority: 5,
+                title: 'Settings',
+
+                //badgeColor: Colors.amber,
+                // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
+                tooltipContent: "Settings",
+                onTap: (page, _) {
+                  sideMenu.changePage(page);
+                },
+                icon: const Icon(Icons.settings),
+                submenus: [
+                  SideMenuItem(
+                    title: 'Submenu 1',
+                    icon: Icon(Icons.subtitles),
+                    priority: 6,
+                    onTap: (page, _) {
+                      sideMenu.changePage(page);
+                    },
+                  ),
+                  SideMenuItem(
+                    title: 'Submenu 2',
+                    icon: Icon(Icons.star),
+                    priority: 7,
+                    onTap: (page, _) {
+                      sideMenu.changePage(page);
+                    },
+                  ),
+                ],
               ),
               // SideMenuItem(
               //   priority: 5,
@@ -183,13 +218,18 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
             child: PageView(
               controller: page,
               children: [
-                DashBoardScreen(),
+                AddThriversScreen(),
+               // DashBoardScreen(),
+                AddThriversScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
                 /*AddChallenges(),
                 AddSolutionsScreen,
+
                 UserListingScreen()*/
+
+
               ],
             ),
           ),
@@ -201,9 +241,13 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
 
   Widget DashBoardScreen(){
     return Scaffold(
+      backgroundColor: Colors.grey.withOpacity(0.2),
       //appBar:AppHelper().CustomAppBarForRetailHub(context),
       body:Container(
+        margin: EdgeInsets.all(20),
         decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.7),
+          borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             image: NetworkImage("https://e0.pxfuel.com/wallpapers/1/408/desktop-wallpaper-expo-2020-dubai-live-from-the-opening-ceremony.jpg"),
             fit: BoxFit.cover,
@@ -214,7 +258,7 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
             width: 470,
             height: 300,
             child: Card(
-              color: Colors.black,
+              color: Colors.white,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -249,11 +293,10 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                                 child: Container(
                                   margin: EdgeInsets.all(10),
                                   height: 60,
-
                                   decoration: BoxDecoration(
-                                    color: primaryColorOfApp,
-                                    border: Border.all(color:primaryColorOfApp, width: 2.0),
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    color: Colors.white,
+                                    border: Border.all(color:primaryColorOfApp, width: 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -280,11 +323,10 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                                 child: Container(
                                   margin: EdgeInsets.all(10),
                                   height: 60,
-
                                   decoration: BoxDecoration(
-                                    color: primaryColorOfApp,
-                                    border: Border.all(color:primaryColorOfApp, width: 2.0),
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    color: Colors.white,
+                                    border: Border.all(color:primaryColorOfApp, width: 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -317,9 +359,9 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                                   height: 60,
 
                                   decoration: BoxDecoration(
-                                    color: primaryColorOfApp,
-                                    border: Border.all(color:primaryColorOfApp, width: 2.0),
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    color: Colors.white,
+                                    border: Border.all(color:primaryColorOfApp, width: 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -348,9 +390,9 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                                   height: 60,
 
                                   decoration: BoxDecoration(
-                                    color: primaryColorOfApp,
-                                    border: Border.all(color:primaryColorOfApp, width: 2.0),
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    color: Colors.white,
+                                    border: Border.all(color:primaryColorOfApp, width: 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
