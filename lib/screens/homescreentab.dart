@@ -46,7 +46,6 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
             style: SideMenuStyle(
               itemBorderRadius: BorderRadius.circular(100),
                 itemOuterPadding: EdgeInsets.symmetric(horizontal: 30),
-
               // showTooltip: false,
                 displayMode: SideMenuDisplayMode.auto,
                 hoverColor: Colors.grey,

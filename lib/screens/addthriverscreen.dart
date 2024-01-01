@@ -282,22 +282,24 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
 
 
 
-                  return  ListView.separated(
-                    reverse: true,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    physics: BouncingScrollPhysics(),
-                    itemCount: documents.length,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
-                    itemBuilder: (BuildContext context, int index) {
-                      //print('Images ${documents[index]['Images'].length}');
-                      //todo Pass this time
+                  return  Container(
+                    child: ListView.separated(
 
-                      return ThriversListTile(documents[index]);
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                      physics: BouncingScrollPhysics(),
+                      itemCount: documents.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider();
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        //print('Images ${documents[index]['Images'].length}');
+                        //todo Pass this time
 
-                    },
+                        return ThriversListTile(documents[index]);
+
+                      },
+                    ),
                   );
                 },
               ):FutureBuilder(
@@ -397,6 +399,8 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
   }
 
   Widget ThriversListTile(DocumentSnapshot<Object?> thriversDetails) {
+    print("thriversDetails");
+    print(thriversDetails.data());
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

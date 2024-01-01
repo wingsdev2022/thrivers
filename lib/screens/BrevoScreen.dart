@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thrivers/Network/FirebaseApi.dart';
 
 import '../core/constants.dart';
 import '../core/progress_dialog.dart';
@@ -37,7 +38,7 @@ class _BrevoScreenState extends State<BrevoScreen> {
 
   @override
   void initState() {
-    brevoApiFuture = getBrevoApiKey();
+    brevoApiFuture = ApiRepository().getBrevoApiKey();
     // TODO: implement initState
     super.initState();
   }
@@ -353,17 +354,6 @@ class _BrevoScreenState extends State<BrevoScreen> {
     );
   }
 
-  Future<String> getBrevoApiKey() async {
-    String apiKey = "";
-    await FirebaseFirestore.instance.collection('Brevo').doc("4u6D48cqxOelszc3vg5i").get().then((value) {
 
-      // Access the specific field
-      apiKey = value['APIKey'];
-      // Perform the update operation
-
-    });
-
-    return apiKey;
-  }
 
 }

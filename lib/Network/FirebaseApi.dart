@@ -207,6 +207,8 @@ class ApiRepository{
 
   Future<bool> sendLoginMail(String email) async {
 
+    String BREVO_API_KEY_FROM_BACKEND = await getBrevoApiKey();
+
     bool isSuccessFull = false;
 
     List<Map> recievers = [];
@@ -218,7 +220,7 @@ class ApiRepository{
     var headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'api-key': BREVO_API_KEY
+      'api-key': BREVO_API_KEY_FROM_BACKEND
     };
 
     String token = EncryptData.createJWT({"email":email});
@@ -258,6 +260,19 @@ class ApiRepository{
   Future<void> DeleteSectionPreset(DocumentReference<Object?> documentReference) async {
     await documentReference.delete();
   }
+
+   Future<String> getBrevoApiKey() async {
+     String apiKey = "";
+     await FirebaseFirestore.instance.collection('Brevo').doc("4u6D48cqxOelszc3vg5i").get().then((value) {
+
+       // Access the specific field
+       apiKey = value['APIKey'];
+       // Perform the update operation
+
+     });
+
+     return apiKey;
+   }
 
 
   //Check if user exists else show regsitration UI
