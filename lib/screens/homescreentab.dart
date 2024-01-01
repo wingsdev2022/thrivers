@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../core/apphelper.dart';
 import '../core/constants.dart';
+import 'BrevoScreen.dart';
 import 'addthriverscreen.dart';
 
 
@@ -76,8 +77,8 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
 
                 Text("Welcome , Admin" , style: GoogleFonts.montserrat(
                     textStyle: Theme.of(context).textTheme.headlineMedium,
-
-                    color: primaryColorOfApp)),
+                    color: Colors.black
+                )),
                 SizedBox(height: 20,),
                 Divider(
                   indent: 8.0,
@@ -182,8 +183,39 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                 icon: const Icon(Icons.settings),
               ),
 
-
-
+              SideMenuItem(
+                priority: 8,
+                title: 'Keywords',
+                //badgeColor: Colors.amber,
+                // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
+                tooltipContent: "Keywords",
+                onTap: (page, _) {
+                  sideMenu.changePage(page);
+                },
+                icon: const Icon(Icons.list_alt),
+              ),
+              SideMenuItem(
+                priority: 9,
+                title: 'Brevo',
+                //badgeColor: Colors.amber,
+                // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
+                tooltipContent: "Brevo",
+                onTap: (page, _) {
+                  sideMenu.changePage(page);
+                },
+                icon: const Icon(Icons.email_outlined),
+              ),
+              SideMenuItem(
+                priority: 10,
+                title: 'Stripe',
+                //badgeColor: Colors.amber,
+                // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
+                tooltipContent: "Stripe",
+                onTap: (page, _) {
+                  sideMenu.changePage(page);
+                },
+                icon: const Icon(Icons.payment),
+              ),
               // SideMenuItem(
               //   priority: 5,
               //   onTap:(page){
@@ -204,13 +236,15 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
             child: PageView(
               controller: page,
               children: [
-                AddThriversScreen(),
-               // DashBoardScreen(),
-                AddThriversScreen(),
-                AddThriversScreen(),
+               // BrevoScreen(),
+                DashBoardScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
+                AddThriversScreen(),
+                BrevoScreen(),
+                BrevoScreen(),
+                BrevoScreen(),
                 /*AddChallenges(),
                 AddSolutionsScreen,
 

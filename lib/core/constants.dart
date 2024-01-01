@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter_tree/flutter_tree.dart';
 import 'package:flutter/material.dart';
 
-const Color primaryColorOfApp = Colors.deepPurple;
+const Color primaryColorOfApp = Colors.black;
 
 
 

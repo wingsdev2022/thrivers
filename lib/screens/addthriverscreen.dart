@@ -163,132 +163,39 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
               HeaderWidget(),
               Container(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        child: Container(
-                          width: size.width * 0.2,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
-                              return ListTile(
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: catergoryTextEditingController,
-                              //autofocus: true,
-                              style: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  ///color: Colors.white
-                              ),
 
+                      Container(
+                        margin:EdgeInsets.only(left: 20),
+                        width: MediaQuery.of(context).size.width*0.5,
+                        child: TextField(
+                          onChanged: (val){
+                            searchText = val;
+                          },
+                          onSubmitted: (v){
+                            setState(() {
 
-
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
-
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Type & Search",
-                                labelText: "Select Category",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
+                            });
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
+                            hintText: 'Search Thriver By Name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(100.0),
                             ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                             // textEditingController.clear();
-                              catergoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(100.0),
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(100.0),
+                              borderSide: BorderSide(color: Colors.black, width: 2.0),
+                            ),
                           ),
                         ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
                       ),
-
-                      Padding(
-                        child: Container(
-                          width: size.width * 0.2,
-                          child: TypeAheadField(
-                            noItemsFoundBuilder: (BuildContext context) {
-
-                              return ListTile(
-
-                                title: Text("Enter a Valid Email Address",style: TextStyle(color: Colors.redAccent),),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: subcategoryTextEditingController,
-                              //autofocus: true,
-
-                              style: GoogleFonts.montserrat(
-                                  textStyle: Theme.of(context).textTheme.bodyLarge,
-                                  fontWeight: FontWeight.w400,
-                                  //color: Colors.white
-                              ),
-
-
-
-                              decoration: InputDecoration(
-                                //errorText: firstNameErrorText,
-
-                                contentPadding: EdgeInsets.all(0),
-                                hintText:  "Select Subcategory",
-                                labelText: "Select Subcategory",
-                                errorStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.redAccent),
-
-                                //hintText: "e.g Abouzied",
-                                labelStyle: GoogleFonts.montserrat(
-                                    textStyle: Theme.of(context).textTheme.bodyLarge,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              return await AuthorityServices.getSuggestions(pattern);
-                            },
-                            itemBuilder: (context, suggestion) {
-                              return ListTile(
-                                title: Text(suggestion.toString()),
-                                //subtitle: Text("Add Some Details Here"),
-                              );
-                            },
-
-                            onSuggestionSelected: (suggestion) {
-                              print("Im selected");
-                              print(suggestion);
-                              subcategoryTextEditingController.text = suggestion;
-                              //innerState((){});
-                            },
-                          ),
-                        ),
-                        padding: EdgeInsets.only(top: 20,bottom: 20),
-                      ),
-
-                      Padding(
+                      /*Padding(
                         child: MultiSelectDialogField(
                           buttonText: Text(
                             "Select Fields to Hide",
@@ -308,7 +215,7 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                           },
                         ),
                         padding: EdgeInsets.only(top: 25, bottom: 20, right: 20),
-                      ),
+                      ),*/
                       Center(child: InkWell(
                           onTap: (){
                             showTreeView = !showTreeView;
@@ -321,11 +228,21 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                             showAddThriverDialogBox(setState);
                           },
                           child: FaIcon(FontAwesomeIcons.add))),
-
+                      Container(width: MediaQuery.of(context).size.width*0.01,)
                     ],
                   )
               ),
-              Container(child:
+              Container(
+                height: MediaQuery.of(context).size.height,
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child:
+            //  backgroundColor: Colors.grey.withOpacity(0.2),
+
+
               showTreeView?StreamBuilder(
                   // FirebaseFirestore.instance
                   //     .collection('users')
@@ -378,47 +295,18 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                       //print('Images ${documents[index]['Images'].length}');
                       //todo Pass this time
 
-                      int ind = 1;
-                      if(documents.length==0){
-                        ind = 0;
-                      }
-
-                      if(index==ind){
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                              child: TextField(
-                                onChanged: (val){
-                                  searchText = val;
-                                },
-                                onSubmitted: (v){
-                                  setState(() {
-
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            ThriversListTile(documents[index])
-                          ],
-                        );
-                      }
-
-                      else{
-                        return ThriversListTile(documents[index]);
-                      }
+                      return ThriversListTile(documents[index]);
 
                     },
                   );
                 },
-              ):StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('Categories').snapshots(),
+              ):FutureBuilder(
+                future: fetchData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
-
-                        child: Center(child: CircularProgressIndicator()));
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
 
                   if (snapshot.hasError) {
@@ -427,9 +315,6 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
 
                   // Reset the list of nodes
                   // nodes.clear();
-
-                  // Fetch data from Firestore and update the nodes list
-                  fetchData(snapshot.data!.docs);
 
                   print("Hola");
                   print(nodes.length);
@@ -454,8 +339,21 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
   }
 
   // Define an async function to fetch data from Firestore
-  Future<void> fetchData(List<QueryDocumentSnapshot> categories) async {
-    for (QueryDocumentSnapshot categoryDocument in categories) {
+  Future<void> fetchData() async {
+
+    //Fetch Categories Fetch Subcategories and then make a tree
+
+
+
+    QuerySnapshot querySnapshot =
+    await FirebaseFirestore.instance.collection('Categories').get();
+
+    // Return the list of documents
+    List<DocumentSnapshot> categories = querySnapshot.docs;
+
+
+
+    for (DocumentSnapshot categoryDocument in categories) {
       String categoryName = categoryDocument['Name'];
       print("Category Name"+categoryName);
 
