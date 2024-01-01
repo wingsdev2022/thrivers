@@ -416,7 +416,9 @@ class _AddThriversScreenState extends State<AddThriversScreen> {
                 stream: FirebaseFirestore.instance.collection('Categories').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return Container(
+
+                        child: Center(child: CircularProgressIndicator()));
                   }
 
                   if (snapshot.hasError) {

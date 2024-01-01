@@ -169,8 +169,9 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                 icon: const Icon(Icons.people_alt_outlined),
               ),
               SideMenuItem(
-                priority: 5,
+                priority: 7,
                 title: 'Settings',
+                isNotAMenu: true,
 
                 //badgeColor: Colors.amber,
                 // badgeContent: FaIcon(FontAwesomeIcons.triangleExclamation,color:Colors.black ,size: 10,),
@@ -179,25 +180,10 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
                   sideMenu.changePage(page);
                 },
                 icon: const Icon(Icons.settings),
-                submenus: [
-                  SideMenuItem(
-                    title: 'Submenu 1',
-                    icon: Icon(Icons.subtitles),
-                    priority: 6,
-                    onTap: (page, _) {
-                      sideMenu.changePage(page);
-                    },
-                  ),
-                  SideMenuItem(
-                    title: 'Submenu 2',
-                    icon: Icon(Icons.star),
-                    priority: 7,
-                    onTap: (page, _) {
-                      sideMenu.changePage(page);
-                    },
-                  ),
-                ],
               ),
+
+
+
               // SideMenuItem(
               //   priority: 5,
               //   onTap:(page){
@@ -220,6 +206,7 @@ class _HomeScreenTabsState extends State<HomeScreenTabs> {
               children: [
                 AddThriversScreen(),
                // DashBoardScreen(),
+                AddThriversScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
                 AddThriversScreen(),
